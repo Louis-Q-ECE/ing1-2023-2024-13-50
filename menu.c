@@ -1,8 +1,6 @@
 
 #include <stdio.h>
 
-#include "SP.h"
-
 int main() {
     int option;
         printf("Menu principal : \n\n");
