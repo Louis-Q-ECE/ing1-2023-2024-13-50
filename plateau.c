@@ -17,7 +17,7 @@ int main() {
     }
 
     // Affichage de la matrice
-    printf("Rectangle 12x22 :\n");
+    printf("plateau du niveau :\n");
     for (int a = 0; a < 12; a++) {
         for (int b = 0; b < 22 ;b++) {
             if (matrice[a][b] == 1) {
