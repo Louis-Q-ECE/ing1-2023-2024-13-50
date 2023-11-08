@@ -9,7 +9,6 @@ int mdp3=3;
 
 int main() {
 
-
     printf("Menu principal : \n\n");
     printf("1)Regles du jeu\n");
     printf("2)Lancer un nouveau Jeu a partir du niveau 1\n");
