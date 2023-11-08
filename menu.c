@@ -27,7 +27,7 @@ int main() {
     } else if (option == 2) {
         printf("Vous allez jouer au niveau 2.\n");
     } else if (option == 3) {
-        printf("Vous allez charger votre partie dernierement sauvegardee.\n")
+        printf("Vous allez charger votre partie dernierement sauvegardee.\n");
     } else if (option == 4) {
         printf("Entrer un mot de passe\n");
         scanf("%d", &mdp);
