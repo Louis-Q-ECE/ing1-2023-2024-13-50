@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <conio.h>
+#include <windows.h>
 
 int main() {
     int matrice[12][22];
@@ -28,10 +30,9 @@ int main() {
             }else {
                 printf(" ");
             }
-#include <stdio.h>
-#include <conio.h>
-#include <windows.h>
-
+        }
+    }retun 0;
+}
 int main() {
     int bx = 0; // Position en x du point
     int by = 0; // Position en y du point
