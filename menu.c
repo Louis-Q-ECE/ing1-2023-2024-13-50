@@ -1,9 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//Déclaration des variables option,mdp
+//Déclaration des variables
 int option;
 int mdp;
+int temps;
+int scoretotal;
+int score1, score2, score3;
+int t1=5, t2=6, t3=7;
+
 //initialisation des variables mdp1, mdp2, mdp3 qui respectivement ont la valeur
 int mdp1=1;
 int mdp2=2;
@@ -58,7 +63,12 @@ int main() {
         //Au fur et à mesure des niveaux, les scores s'additionnent pour former le score final.
     }
     else if (option == 5) {
-        printf("Votre score est : .\n");
+        score1 = t1*100;
+        score2 = t2*100;
+        score3 = t3*100;
+        scoretotal = score1+score2+score3;
+        scanf("%d", &scoretotal);
+        printf("Votre score est : %d.\n",scoretotal);
     }
 
     // si le joueur appuie sur 6 il quittera le jeu.
@@ -71,4 +81,3 @@ int main() {
     }
     return 0;
 }
-
