@@ -8,7 +8,7 @@ int mdp2=2;
 int mdp3=3;
 
 int main() {
-
+//nous affichons le menu disponible pour le joueur.
     printf("Menu principal : \n\n");
     printf("1)Regles du jeu\n");
     printf("2)Lancer un nouveau Jeu a partir du niveau 1\n");
@@ -18,7 +18,7 @@ int main() {
     printf("6)Quitter\n\n");
     printf("choisisssez une option entre 1 et 6.\n");
     scanf("%d", &option);
-
+//si le joeur appuie sur 1 alors les règles du jeu apparaissent.
     if (option == 1) {
         printf("-Initialement, le joueur possede 3 vies. \n\n");
         printf("-Chaque niveau devra etre resolu en moins de 120 secondes. Si le temps est ecoule, le joueur perd une \n"
