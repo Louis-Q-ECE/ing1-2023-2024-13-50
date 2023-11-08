@@ -17,7 +17,7 @@ int main() {
     printf("4)Mot de passe\n");
     printf("5)Scores\n");
     printf("6)Quitter\n\n");
-    printf("choisisssez une option entre 1 et 6.");
+    printf("choisisssez une option entre 1 et 6.\n");
     scanf("%d", &option);
 
     if (option == 1) {
