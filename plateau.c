@@ -28,6 +28,56 @@ int main() {
             }else {
                 printf(" ");
             }
+#include <stdio.h>
+#include <conio.h>
+#include <windows.h>
+
+int main() {
+    int bx = 0; // Position en x du point
+    int by = 0; // Position en y du point
+
+    while (1) {
+        system("cls"); // Effacer l'écran sur Windows
+
+        // Afficher le point à la position actuelle
+        for (int i = 0; i < by; i++) {
+            printf("\n");
+        }
+        for (int i = 0; i < bx; i++) {
+            printf(" ");
+        }
+        printf("o\n");
+
+        if (_kbhit()) {
+
+            char touche = _getch(); // Récupérer la touche enfoncée
+
+            // Déplacer le point en fonction de la touche
+            switch (touche) {
+                case 'w':
+                    by--;
+                    break;
+                case 's':
+                    by++;
+                    break;
+                case 'a':
+                    bx--;
+                    break;
+                case 'd':
+                    bx++;
+                    break;
+                case 'q':
+                    return 0; // Quitter le programme si 'q' est enfoncé
+            }
+        }
+    }
+
+    return 0;
+}
+
+
+
+            
         }
         printf("\n");
     }
