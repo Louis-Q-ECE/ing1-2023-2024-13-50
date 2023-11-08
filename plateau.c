@@ -31,8 +31,13 @@ int main() {
                 printf(" ");
             }
         }
-    }retun 0;
+        printf("\n");
+    }
+
+    return 0;
 }
+
+
 int main() {
     int bx = 0; // Position en x du point
     int by = 0; // Position en y du point
@@ -78,13 +83,6 @@ int main() {
 
 
 
-            
-        }
-        printf("\n");
-    }
-
-    return 0;
-}
 
 
 
