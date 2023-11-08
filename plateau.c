@@ -33,7 +33,14 @@ int main() {
         }
         printf("\n");
     }
-
+   int sec=10;
+    while (sec > 0) {
+        printf("\rSecondes restantes %d: ", sec);
+        sec--;
+        Sleep(1000);
+        printf("");
+        printf("\r");
+    }    printf("\nCompte à rebours terminé !\n");
     return 0;
 }
 
