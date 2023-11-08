@@ -1,10 +1,11 @@
 #include <stdio.h>
-
+//Déclaration des variables option,mdp
 int option;
 int mdp;
-int mdp1=12;
-int mdp2=47;
-int mdp3=69;
+//initialisation des variables mdp1, mdp2, mdp3 qui respectivement ont la valeur 
+int mdp1=1;
+int mdp2=2;
+int mdp3=3;
 
 int main() {
 
@@ -25,9 +26,9 @@ int main() {
                "vie et recommence le niveau Le but est de recuperer les 4 oiseaux du niveau sans se faire toucher par \n"
                "un obstacle \n\n");
     } else if (option == 2) {
-        printf("Vous bénéficiez d'un tarif réduit.\n");
+        printf("Vous allez jouer au niveau 2.\n");
     } else if (option == 3) {
-        printf("Vous bénéficiez d'un tarif réduit.\n");
+        printf("Vous allez charger votre partie dernierement sauvegardee.\n")
     } else if (option == 4) {
         printf("Entrer un mot de passe\n");
         scanf("%d", &mdp);
@@ -41,11 +42,14 @@ int main() {
             printf("-votre mot de passe est incorect. \n\n");}
 
                 } else if (option == 5) {
-                    printf("Vous bénéficiez d'un tarif réduit.\n");
+                    printf("Votre score est : .\n");
                 } else if (option == 6) {
-                    printf("Vous bénéficiez d'un tarif réduit.\n");
+                    printf("Vous avez decide de quitter le jeu, mauvais choix ;).\n");
                 } else{
                     printf("veuillez taper un nombre entre 1 et 6\n");
     }
     return 0;
             }
+
+
+
