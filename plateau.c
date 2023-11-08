@@ -106,7 +106,7 @@
                 } else if (matrice[i][j] == 5) {
                     printf("-\n");
                 }else {
-                    printf("%d\t", matrice[i][j]);
+                    printf("\t");
                 }
             }
         }
