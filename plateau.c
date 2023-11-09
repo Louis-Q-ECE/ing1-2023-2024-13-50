@@ -23,29 +23,12 @@ int main (){
                 matrice[a][b] = 0;  // l'intérieur
             }
         }
-    }// affichage de la matrice
+    }
 
     char character = 'P';
     int x = 10, y = 5; // Position de départ du personnage
-
-    printf("plateau du niveau :\n");
-    for (int a = 0; a < 12; a++) {
-        for (int b = 0; b < 22 ;b++) {
-            if (matrice[a][b] == 1) {
-                printf("-");
-            }else if (matrice[a][b] == 2){
-                printf("|");
-
-            }else if (matrice[a][b] == 3){
-                printf("A");
-            }else {
-                printf(" ");
-            }
-        }
-        printf("\n");
-    }
     while (1) {
-        system("cls");  // Efface l'écran (pour Windows)
+        system("cls");  // Efface l'écran 
 
         // Affichage de la matrice avec le personnage
         printf("plateau du niveau :\n");
@@ -67,7 +50,7 @@ int main (){
             }
             printf("\n");
         }
-
+        // code pour deplacer le personnage 
         char key = getch();
 
         if (key == 'z' && y > 1) {
