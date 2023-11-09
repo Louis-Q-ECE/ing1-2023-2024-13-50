@@ -2,7 +2,7 @@
 #include <conio.h>
 #include <windows.h>
 
-int main() {
+int main (){
     int matrice[12][22];
 
     // Initialisation de la matrice
@@ -12,13 +12,14 @@ int main() {
                 matrice[a][b] = 1;  //  les bordures du toit et du plancher
             }else if (b == 0 || b == 21) {
                 matrice[a][b] = 2; // les bordures des murs
-            }else {
+            }else if (a==1 && b==1 || a==10 && b==1 || a==1 && b==20 || a==10 && b==20){ // placement des oiseaux
+                matrice[a][b] = 3;
+            }
+            else {
                 matrice[a][b] = 0;  // l'intérieur
             }
         }
-    }
-
-    // Affichage de la matrice
+    }// affichage de la matrice
     printf("plateau du niveau :\n");
     for (int a = 0; a < 12; a++) {
         for (int b = 0; b < 22 ;b++) {
@@ -27,12 +28,15 @@ int main() {
             }else if (matrice[a][b] == 2){
                 printf("|");
 
+            }else if (matrice[a][b] == 3){
+                printf("A");
             }else {
                 printf(" ");
             }
         }
         printf("\n");
     }
+}
    int sec=10;
     while (sec > 0) {
         printf("\rSecondes restantes %d: ", sec);
