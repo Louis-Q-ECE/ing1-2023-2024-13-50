@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include <time.h>
-#include <stdlib.h>zdsdz
+#include <stdlib.h>
 #include <math.h>
 #include <conio.h>
 
@@ -18,6 +18,10 @@ int main (){
                 matrice[a][b] = 2; // les bordures des murs
             }else if (a==1 && b==1 || a==10 && b==1 || a==1 && b==20 || a==10 && b==20){
                 matrice[a][b] = 3;
+            }else if (a==2 && b==4 || a==2 && b==5 || a==2 && b==6 || a==2 && b==6){
+                matrice[a][b] = 4;
+            }else if (a==6 && b==11 || a==7 && b==11 || a==8 && b==11 || a==8 && b==11){
+                matrice[a][b] = 5;
             }
             else {
                 matrice[a][b] = 0;  // l'intérieur
@@ -28,7 +32,7 @@ int main (){
     char character = 'P';
     int x = 10, y = 5; // Position de départ du personnage
     while (1) {
-        system("cls");  // Efface l'écran 
+        system("cls");  // Efface l'écran
 
         // Affichage de la matrice avec le personnage
         printf("plateau du niveau :\n");
@@ -43,14 +47,18 @@ int main (){
                         printf("|");
                     } else if (matrice[a][b] == 3) {
                         printf("A");
-                    } else {
+                    } else if (matrice[a][b] == 4) {
+                        printf("#");
+                    }else if (matrice[a][b] == 5) {
+                        printf("0");
+                    }else {
                         printf(" ");
                     }
                 }
             }
             printf("\n");
         }
-        // code pour deplacer le personnage 
+        // code pour deplacer le personnage
         char key = getch();
 
         if (key == 'z' && y > 1) {
@@ -64,11 +72,3 @@ int main (){
         }
     }
 }
-
-
-
-
-
-
-
-
