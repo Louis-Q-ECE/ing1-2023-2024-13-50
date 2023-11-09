@@ -1,6 +1,10 @@
 #include <stdio.h>
-#include <conio.h>
 #include <windows.h>
+#include <time.h>
+#include <stdlib.h>zdsdz
+#include <math.h>
+#include <conio.h>
+
 
 int main (){
     int matrice[12][22];
@@ -12,7 +16,7 @@ int main (){
                 matrice[a][b] = 1;  //  les bordures du toit et du plancher
             }else if (b == 0 || b == 21) {
                 matrice[a][b] = 2; // les bordures des murs
-            }else if (a==1 && b==1 || a==10 && b==1 || a==1 && b==20 || a==10 && b==20){ // placement des oiseaux
+            }else if (a==1 && b==1 || a==10 && b==1 || a==1 && b==20 || a==10 && b==20){
                 matrice[a][b] = 3;
             }
             else {
@@ -20,6 +24,10 @@ int main (){
             }
         }
     }// affichage de la matrice
+
+    char character = 'P';
+    int x = 10, y = 5; // Position de départ du personnage
+
     printf("plateau du niveau :\n");
     for (int a = 0; a < 12; a++) {
         for (int b = 0; b < 22 ;b++) {
@@ -36,60 +44,42 @@ int main (){
         }
         printf("\n");
     }
-}
-   int sec=10;
-    while (sec > 0) {
-        printf("\rSecondes restantes %d: ", sec);
-        sec--;
-        Sleep(1000);
-        printf("");
-        printf("\r");
-    }    printf("\nCompte à rebours terminé !\n");
-    return 0;
-}
-
-
-int main() {
-    int bx = 0; // Position en x du point
-    int by = 0; // Position en y du point
-
     while (1) {
-        system("cls"); // Effacer l'écran sur Windows
+        system("cls");  // Efface l'écran (pour Windows)
 
-        // Afficher le point à la position actuelle
-        for (int i = 0; i < by; i++) {
+        // Affichage de la matrice avec le personnage
+        printf("plateau du niveau :\n");
+        for (int a = 0; a < 12; a++) {
+            for (int b = 0; b < 22; b++) {
+                if (a == y && b == x) {
+                    printf("%c", character);
+                } else {
+                    if (matrice[a][b] == 1) {
+                        printf("-");
+                    } else if (matrice[a][b] == 2) {
+                        printf("|");
+                    } else if (matrice[a][b] == 3) {
+                        printf("A");
+                    } else {
+                        printf(" ");
+                    }
+                }
+            }
             printf("\n");
         }
-        for (int i = 0; i < bx; i++) {
-            printf(" ");
-        }
-        printf("o\n");
 
-        if (_kbhit()) {
+        char key = getch();
 
-            char touche = _getch(); // Récupérer la touche enfoncée
-
-            // Déplacer le point en fonction de la touche
-            switch (touche) {
-                case 'w':
-                    by--;
-                    break;
-                case 's':
-                    by++;
-                    break;
-                case 'a':
-                    bx--;
-                    break;
-                case 'd':
-                    bx++;
-                    break;
-                case 'q':
-                    return 0; // Quitter le programme si 'q' est enfoncé
-            }
+        if (key == 'z' && y > 1) {
+            y--;
+        } else if (key == 's' && y < 10) {
+            y++;
+        } else if (key == 'q' && x > 1) {
+            x--;
+        } else if (key == 'd' && x < 20) {
+            x++;
         }
     }
-
-    return 0;
 }
 
 
