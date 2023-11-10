@@ -1,1 +1,42 @@
-mets ton score ADRIEANT
+    void initialiserTimer(int *tempsRestant) {
+    // Le temps total par niveau (dans ce cas, 60 secondes par niveau)
+    *tempsRestant = 60;
+    }
+
+// Fonction pour obtenir le temps restant
+    int getTempsRestant(int *tempsRestant) {
+    // Réduction du temps restant
+    (*tempsRestant)--;
+
+    return *tempsRestant;
+    }
+
+// Fonction pour calculer le score
+    int calculerScore(int tempsRestant) {
+    // Calcul du score en multipliant le temps restant par 100
+    int score = tempsRestant * 100;
+    return score;
+
+    int temps_restant_niveau1, temps_restant_niveau2, temps_restant_niveau3;
+
+    // Initialiser le timer pour chaque niveau
+    initialiserTimer(&temps_restant_niveau1);
+    initialiserTimer(&temps_restant_niveau2);
+    initialiserTimer(&temps_restant_niveau3);
+
+    // Obtenir les temps restants pour chaque niveau
+    int temps_restant1 = getTempsRestant(&temps_restant_niveau1);
+    int temps_restant2 = getTempsRestant(&temps_restant_niveau2);
+    int temps_restant3 = getTempsRestant(&temps_restant_niveau3);
+
+    // Calcul des scores pour chaque niveau en utilisant la fonction calculerScore
+    int score_niveau1 = calculerScore(temps_restant1);
+    int score_niveau2 = calculerScore(temps_restant2);
+    int score_niveau3 = calculerScore(temps_restant3);
+
+    // Calcul du score total en additionnant les scores de chaque niveau
+    int score_total = score_niveau1 + score_niveau2 + score_niveau3;
+
+    printf("Score total : %d points\n", score_total);
+    }
+}
