@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <unistd.h>
+
 
 void temps() {
     int temps = 120; //le temps de la partie est de 120 secondes
