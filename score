@@ -1,4 +1,12 @@
-    void initialiserTimer(int *tempsRestant) {
+#include <windows.h>
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <math.h>
+#include <conio.h>
+ 
+int main(){
+int initialiserTimer(int *tempsRestant) {
     // Le temps total par niveau (dans ce cas, 60 secondes par niveau)
     *tempsRestant = 60;
     }
