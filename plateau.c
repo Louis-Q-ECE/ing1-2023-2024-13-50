@@ -1,3 +1,10 @@
+#include <stdio.h>
+#include <windows.h>
+#include <time.h>
+#include <stdlib.h>
+#include <math.h>
+#include <conio.h>
+
 
 int main () {
     int tab[12][22];
