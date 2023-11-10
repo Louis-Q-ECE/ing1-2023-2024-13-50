@@ -1,0 +1,20 @@
+
+void temps() {
+    int temps = 120; //le temps de la partie est de 120 secondes
+
+    printf("Debut du compte a rebours : %d secondes\n", temps);
+
+    while (temps > 0) {
+        sleep(1); // Pause d'une seconde
+        printf("\rTemps restant : %d secondes", temps);
+        fflush(stdout); // faire en sorte le compte a rebours perde les secondes
+        temps--;
+    }
+
+    printf("\nLe compte à rebours est terminé !\n");
+}
+int main() {
+    // Appel de la fonction du compte à rebours
+    temps();
+
+    return 0;
