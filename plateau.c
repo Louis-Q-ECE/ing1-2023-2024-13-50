@@ -25,7 +25,7 @@ int main () {
                 tab[a][b] = 4;
             } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 || a == 8 && b == 11) { //bloc cassable
                 tab[a][b] = 5;
-            } else if (a == 8 && b == 12 || a == 9 && b == 12 || a == 5 && b == 4 || a == 5 && b == 5) { //bloc cassable
+            } else if (a == 8 && b == 12 || a == 9 && b == 12 || a == 5 && b == 4 || a == 5 && b == 5) { //bloc piégé
                 tab[a][b] = 6;
             } else {
                 tab[a][b] = 0;  // l'intérieur
