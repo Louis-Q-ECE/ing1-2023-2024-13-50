@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <conio.h>
+
 // Structure pour passer les données au thread du timer
 struct TimerData {
     int temps;
@@ -33,16 +34,16 @@ int main() {
     for (int a = 0; a < 12; a++) {
         for (int b = 0; b < 22; b++) {
             if (a == 0 || a == 11) {
-                tab[a][b] = 1;  //  les bordures du toit et du plancher
+                tab[a][b] = 1;  // les bordures du toit et du plancher
             } else if (b == 0 || b == 21) {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
             } else if (a == 2 && b == 4 || a == 2 && b == 5 || a == 2 && b == 6 || a == 2 && b == 6) { // bloc poussable
                 tab[a][b] = 4;
-            } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 ||a == 8 && b == 11) { //bloc cassable
+            } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 || a == 8 && b == 11) { // bloc cassable
                 tab[a][b] = 5;
-            } else if (a == 8 && b == 12 || a == 9 && b == 12 || a == 5 && b == 4 || a == 5 && b == 5) { //bloc piegé
+            } else if (a == 8 && b == 12 || a == 9 && b == 12 || a == 5 && b == 4 || a == 5 && b == 5) { // bloc piégé
                 tab[a][b] = 6;
             } else {
                 tab[a][b] = 0;  // l'intérieur
@@ -66,7 +67,7 @@ int main() {
         system("cls");  // Efface l'écran
 
         // Affichage du plateau avec le personnage
-        printf("plateau du niveau :\n");
+        printf("Plateau du niveau :\n");
         for (int a = 0; a < 12; a++) {
             for (int b = 0; b < 22; b++) {
                 if (a == y && b == x) {
@@ -96,33 +97,65 @@ int main() {
         char key = getch();
         if (key == 'z' && y > 1) {
             if (tab[y - 1][x] == 3 || tab[y - 1][x] == 5) {
-                tab[y - 1][x] = 0; // Fait disparaître le "A" et le bloc cassable si le personnage passe dessus par au dessus
+                tab[y - 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
                 if (tab[x][y] == 0) {
                     printf(" ");
+                }
+            } else if (tab[y - 1][x] == 4) {
+                tab[y - 1][x] = 0; // Fait disparaître le bloc "#"
+                tab[y - 2][x] = 4; // Déplace le bloc "#" une case avant dans la direction du déplacement
+                if (tab[x][y] == 0) {
+                    printf(" ");
+                } else if (tab[x][y] == 4) {
+                    printf("#");
                 }
             }
             y--;
         } else if (key == 's' && y < 10) {
             if (tab[y + 1][x] == 3 || tab[y + 1][x] == 5) {
-                tab[y + 1][x] = 0; // Fait disparaître le "A" et le bloc cassable si le personnage passe dessus par en dessous
+                tab[y + 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
                 if (tab[x][y] == 0) {
                     printf(" ");
+                }
+            } else if (tab[y + 1][x] == 4) {
+                tab[y + 1][x] = 0; // Fait disparaître le bloc "#"
+                tab[y + 2][x] = 4; // Déplace le bloc "#" une case après dans la direction du déplacement
+                if (tab[x][y] == 0) {
+                    printf(" ");
+                } else if (tab[x][y] == 4) {
+                    printf("#");
                 }
             }
             y++;
         } else if (key == 'q' && x > 1) {
-            if (tab[y][x - 1] == 3 || tab[y][x-1] == 5) {
-                tab[y][x - 1] = 0; // Fait disparaître le "A" et le bloc cassable si le personnage passe dessus par la gauche
+            if (tab[y][x - 1] == 3 || tab[y][x - 1] == 5) {
+                tab[y][x - 1] = 0; // Fait disparaître le "A" et le bloc cassable
                 if (tab[x][y - 1] == 0) {
                     printf(" ");
+                }
+            } else if (tab[y][x - 1] == 4) {
+                tab[y][x - 1] = 0; // Fait disparaître le bloc "#"
+                tab[y][x - 2] = 4; // Déplace le bloc "#" une case avant dans la direction du déplacement
+                if (tab[x][y] == 0) {
+                    printf(" ");
+                } else if (tab[x][y] == 4) {
+                    printf("#");
                 }
             }
             x--;
         } else if (key == 'd' && x < 20) {
-            if (tab[y][x + 1] == 3 || tab[y][x+1] == 5) {
-                tab[y][x + 1] = 0; // Fait disparaître le "A" et le bloc cassable si le personnage passe dessus par la droite
+            if (tab[y][x + 1] == 3 || tab[y][x + 1] == 5) {
+                tab[y][x + 1] = 0; // Fait disparaître le "A" et le bloc cassable
                 if (tab[x][y] == 0) {
                     printf(" ");
+                }
+            } else if (tab[y][x + 1] == 4) {
+                tab[y][x + 1] = 0; // Fait disparaître le bloc "#"
+                tab[y][x + 2] = 4; // Déplace le bloc "#" une case après dans la direction du déplacement
+                if (tab[x][y] == 0) {
+                    printf(" ");
+                } else if (tab[x][y] == 4) {
+                    printf("#");
                 }
             }
             x++;
