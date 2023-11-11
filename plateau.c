@@ -103,7 +103,7 @@ int main() {
             }
             y--;
         } else if (key == 's' && y < 10) {
-            if (tab[y + 1][x] == 3 || tab[y - 1][x] == 5) {
+            if (tab[y + 1][x] == 3 || tab[y + 1][x] == 5) {
                 tab[y + 1][x] = 0; // Fait disparaître le "A" et le bloc cassable si le personnage passe dessus par en dessous
                 if (tab[x][y] == 0) {
                     printf(" ");
@@ -111,7 +111,7 @@ int main() {
             }
             y++;
         } else if (key == 'q' && x > 1) {
-            if (tab[y][x - 1] == 3 || tab[y - 1][x] == 5) {
+            if (tab[y][x - 1] == 3 || tab[y][x-1] == 5) {
                 tab[y][x - 1] = 0; // Fait disparaître le "A" et le bloc cassable si le personnage passe dessus par la gauche
                 if (tab[x][y - 1] == 0) {
                     printf(" ");
@@ -119,7 +119,7 @@ int main() {
             }
             x--;
         } else if (key == 'd' && x < 20) {
-            if (tab[y][x + 1] == 3 || tab[y - 1][x] == 5) {
+            if (tab[y][x + 1] == 3 || tab[y][x+1] == 5) {
                 tab[y][x + 1] = 0; // Fait disparaître le "A" et le bloc cassable si le personnage passe dessus par la droite
                 if (tab[x][y] == 0) {
                     printf(" ");
