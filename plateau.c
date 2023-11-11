@@ -1,10 +1,10 @@
+#include "sousp.h"
 #include <stdio.h>
 #include <windows.h>
 #include <unistd.h>
 #include <pthread.h>
 #include <conio.h>
 
-// Structure pour passer les données au thread du timer
 struct TimerData {
     int temps;
 };
@@ -13,19 +13,20 @@ struct TimerData {
 void *timerThread(void *arg) {
     struct TimerData *timerData = (struct TimerData *)arg;
 
-    while (timerData->temps > 0) {
+    while ((*timerData).temps > 0) {
         sleep(1);
-        printf("\rTemps restant : %d secondes", timerData->temps);
+        printf("\rTemps restant : %d secondes", (*timerData).temps);
         fflush(stdout);
-        timerData->temps--;
+        (*timerData).temps--;
     }
-
     printf("\nLe compte à rebours est terminé !\n");
 
     pthread_exit(NULL);
 }
 
-int main() {
+
+void nv1(){
+    SetConsoleOutputCP(65001);
     int tab[12][22];
     char character = 'P';
     int x = 10, y = 5;
@@ -59,7 +60,6 @@ int main() {
     pthread_t timerThreadId;
     if (pthread_create(&timerThreadId, NULL, timerThread, (void *)&timerData) != 0) {
         fprintf(stderr, "Erreur lors de la création du thread du timer.\n");
-        return 1;
     }
 
     // Boucle principale
@@ -163,5 +163,5 @@ int main() {
     }
     pthread_join(timerThreadId, NULL);
 
-    return 0;
 }
+
