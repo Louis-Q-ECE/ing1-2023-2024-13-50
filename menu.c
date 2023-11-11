@@ -86,6 +86,7 @@ int main() {
         //si le joueur appuie sur 2 alors il relancera un nouveau jeu donc une nouvelle partie qu'il devra ensuite sauvegardee
     else if (option == 2) {
         printf("Vous allez lancer un nouveau jeu a partir du niveau 1.\n");
+        niv1();
     }
 
         //si le joueur appuie sur 3 alors il chargera sa partie qui a été sauvegardee
