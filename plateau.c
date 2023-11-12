@@ -41,9 +41,15 @@ int main() {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
-            } else if (a == 2 && b == 4 || a == 2 && b == 5 || a == 2 && b == 6 || a == 2 && b == 6) { // bloc poussable
+            } else if (a == 2 && b == 4 ) { // bloc poussable
                 tab[a][b] = 4;
-            } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 || a == 8 && b == 11) { // bloc cassable
+            } else if (a == 2 && b == 5 ) { // bloc poussable
+                tab[a][b] = 10;
+            }  else if (a == 2 && b == 6) { // bloc poussable
+                tab[a][b] = 11;
+            }  else if (a == 2 && b == 9) { // bloc poussable
+                tab[a][b] = 12;
+            }  else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 || a == 8 && b == 11) { // bloc cassable
                 tab[a][b] = 5;
             } else if (a == 8 && b == 12 || a == 9 && b == 12 || a == 5 && b == 4 || a == 5 && b == 5) { // bloc piégé
                 tab[a][b] = 6;
@@ -85,8 +91,14 @@ int main() {
                         } else if (tab[a][b] == 3) {
                             printf("A");
                         } else if (tab[a][b] == 4) {
-                            printf("#");
-                        } else if (tab[a][b] == 5) {
+                            printf("r");
+                        } else if (tab[a][b] == 10) {
+                            printf("t");
+                        }else if (tab[a][b] == 11) {
+                            printf("y");
+                        }else if (tab[a][b] == 12) {
+                            printf("u");
+                        }else if (tab[a][b] == 5) {
                             printf("0");
                         } else if (tab[a][b] == 6) {
                             printf("&");
@@ -120,7 +132,7 @@ int main() {
                     }
                 } else if (tab[y - 1][x] == 4) {
                     tab[y - 1][x] = 0; // Fait disparaître le bloc "#"
-                    tab[y - 2][x] = 4; // Déplace le bloc "#" une case avant dans la direction du déplacement
+                    tab[y - 2][x] = 4; // Déplace le bloc "#" une case aprés dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
                     } else if (tab[x][y] == 4) {
@@ -134,12 +146,12 @@ int main() {
                     if (tab[x][y] == 0) {
                         printf(" ");
                     }
-                } else if (tab[y + 1][x] == 4) {
+                } else if (tab[y + 1][x] == 10) {
                     tab[y + 1][x] = 0; // Fait disparaître le bloc "#"
-                    tab[y + 2][x] = 4; // Déplace le bloc "#" une case après dans la direction du déplacement
+                    tab[y + 2][x] = 10; // Déplace le bloc "#" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
-                    } else if (tab[x][y] == 4) {
+                    } else if (tab[x][y] == 10) {
                         printf("#");
                     }
                 }
@@ -150,12 +162,12 @@ int main() {
                     if (tab[x][y - 1] == 0) {
                         printf(" ");
                     }
-                } else if (tab[y][x - 1] == 4) {
+                } else if (tab[y][x - 1] == 11) {
                     tab[y][x - 1] = 0; // Fait disparaître le bloc "#"
-                    tab[y][x - 2] = 4; // Déplace le bloc "#" une case avant dans la direction du déplacement
+                    tab[y][x - 2] = 11; // Déplace le bloc "#" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
-                    } else if (tab[x][y] == 4) {
+                    } else if (tab[x][y] == 11) {
                         printf("#");
                     }
                 }
@@ -166,12 +178,12 @@ int main() {
                     if (tab[x][y] == 0) {
                         printf(" ");
                     }
-                } else if (tab[y][x + 1] == 4) {
+                } else if (tab[y][x + 1] == 12) {
                     tab[y][x + 1] = 0; // Fait disparaître le bloc "#"
-                    tab[y][x + 2] = 4; // Déplace le bloc "#" une case après dans la direction du déplacement
+                    tab[y][x + 2] = 12; // Déplace le bloc "#" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
-                    } else if (tab[x][y] == 4) {
+                    } else if (tab[x][y] == 12) {
                         printf("#");
                     }
                 }
