@@ -41,13 +41,13 @@ int main() {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
-            } else if (a == 2 && b == 4 ) { // bloc poussable
+            } else if (a == 2 && b == 4 ) { // bloc poussable vers le haut
                 tab[a][b] = 4;
-            } else if (a == 2 && b == 5 ) { // bloc poussable
+            } else if (a == 2 && b == 5 ) { // bloc poussable vers le bas 
                 tab[a][b] = 10;
-            }  else if (a == 2 && b == 6) { // bloc poussable
+            }  else if (a == 2 && b == 6) { // bloc poussable vers la gauche
                 tab[a][b] = 11;
-            }  else if (a == 2 && b == 9) { // bloc poussable
+            }  else if (a == 2 && b == 9) { // bloc poussable vers la droite
                 tab[a][b] = 12;
             }  else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 || a == 8 && b == 11) { // bloc cassable
                 tab[a][b] = 5;
