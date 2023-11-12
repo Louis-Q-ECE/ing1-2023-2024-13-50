@@ -103,7 +103,8 @@ int main() {
             if (timerData.temps == 0 || tab[y][x] == 6) {
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
-            }else if (vie == 0) {   // le joueur a perdu si il n'aplus de vie
+                sleep(0.5);  // Attendez quelques secondes avant de reprendre
+            }else if (vie == 0) {
                 printf("\ngame over\n");
                 break;
             }
