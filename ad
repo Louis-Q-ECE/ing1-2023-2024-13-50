@@ -413,3 +413,31 @@ void menu() {
         }
         EffacerEcran();
     }
+
+
+
+
+#include "sousp.h"
+
+
+int main() {
+    snoopy();
+    menu();
+}
+
+
+
+
+
+
+#ifndef PROJET1_SNOOPY_SOUSP_H
+#define PROJET1_SNOOPY_SOUSP_H
+
+void nv1();
+void menu();
+void regles();
+void mdp();
+void score();
+void quitter();
+void snoopy();
+#endif //PROJET1_SNOOPY_SOUSP_H
