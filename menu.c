@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void effacerEcran() {
+void EffacerEcran() {
     system("cls");  // Pour Windows
 }
 
@@ -30,24 +30,27 @@ int main() {
     strcpy(MonAscii[15], "        `:/\n");
 
 
-    printf("Voulez-vous du son ? \n");
-
     do {
+
+        printf("Voulez-vous du son ? \n");
         printf("\n0 = muet    1 = son active \n");
         scanf("%d", &ChoixBip);
+        EffacerEcran();
+
     } while (ChoixBip != 0 && ChoixBip != 1);
 
+
     for (i = 5; i < 21; i++) {
-        usleep(150000); //obligé d'utiliser usleep car sleep pas assez précis
+        usleep(200000); //obligé d'utiliser usleep car sleep pas assez précis
         if (ChoixBip == 1) {
             Beep(i * 100, 200);
         } else {
-            usleep(200000); // pause assez longu
+            usleep(200000); // pause assez longue
         }
 
         printf("%s", MonAscii[i - 5]);
     }
-    effacerEcran();
+    EffacerEcran();
 
 //Déclaration des variables
     int option;
@@ -64,29 +67,36 @@ int main() {
 
 
 //nous affichons le menu disponible pour le joueur.
-    printf("Menu principal : \n\n");
-    printf("1)Regles du jeu\n");
-    printf("2)Lancer un nouveau Jeu a partir du niveau 1\n");
-    printf("3)Charger une partie\n");
-    printf("4)Mot de passe\n");
-    printf("5)Scores\n");
-    printf("6)Quitter\n\n");
-    printf("choisisssez une option entre 1 et 6.\n");
-    scanf("%d", &option);
+   do {
+       printf("Menu principal : \n\n");
+        printf("1)Regles du jeu\n");
+        printf("2)Lancer un nouveau Jeu a partir du niveau 1\n");
+        printf("3)Charger une partie\n");
+        printf("4)Mot de passe\n");
+        printf("5)Scores\n");
+        printf("6)Quitter\n\n");
+        printf("choisisssez une option entre 1 et 6.\n");
+        scanf("%d", &option);
+        EffacerEcran();
+   }
+   while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5 && option != 6);
 
 
     //si le joueur appuie sur 1 alors les règles du jeu apparaissent.
     if (option == 1) {
         printf("-Initialement, le joueur possede 3 vies. \n\n");
         printf("-Chaque niveau devra etre resolu en moins de 120 secondes. Si le temps est ecoule, le joueur perd une \n"
-               "vie et recommence le niveau Le but est de recuperer les 4 oiseaux du niveau sans se faire toucher par \n"
+               "vie et recommence le niveau. Le but est de recuperer les 4 oiseaux du niveau sans se faire toucher par \n"
                "un obstacle \n\n");
+        sleep(10);
+        printf("nous vous renvoyons au menu \n");
+        sleep(5);
+
     }
 
         //si le joueur appuie sur 2 alors il relancera un nouveau jeu donc une nouvelle partie qu'il devra ensuite sauvegardee
     else if (option == 2) {
         printf("Vous allez lancer un nouveau jeu a partir du niveau 1.\n");
-        niv1();
     }
 
         //si le joueur appuie sur 3 alors il chargera sa partie qui a été sauvegardee
@@ -117,14 +127,13 @@ int main() {
         scoretotal = score1 + score2 + score3;
         scanf("%d", &scoretotal);
         printf("Votre score est : %d.\n", scoretotal);
+        sleep(15);
     }
 
         // si le joueur appuie sur 6 il quittera le jeu.
     else if (option == 6) {
         printf("Vous avez decide de quitter le jeu, on vous attend pour une nouvelle aventure.\n");
         exit(0);
-    } else {
-        printf("veuillez taper un nombre entre 1 et 6\n");
     }
     return 0;
 }
