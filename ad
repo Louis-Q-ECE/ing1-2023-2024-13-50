@@ -396,6 +396,9 @@ void snoopy();
 #endif //PROJET1_SNOOPY_SOUSP_H
 
 
-
+else {
+            EffacerEcran();
+            regles();
+            sleep(15);
 
 
