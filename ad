@@ -343,7 +343,7 @@ void menu() {
             quitter();
         }
     }
-}
+
     void snoopy() {
         int ChoixBip = 2;
         int i;
