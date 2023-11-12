@@ -133,7 +133,7 @@ int main() {
                         }
                 } else if (tab[y - 1][x] == 4) {
                     tab[y - 1][x] = 0; // Fait disparaître le bloc "#"
-                    tab[y - 2][x] = 4; // Déplace le bloc "#" une case aprés dans la direction du déplacement
+                    tab[y - 2][x] = 4; // Déplace le bloc "↑" une case aprés dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
                     } else if (tab[x][y] == 4) {
@@ -149,7 +149,7 @@ int main() {
                         }
                 } else if (tab[y + 1][x] == 10) {
                     tab[y + 1][x] = 0; // Fait disparaître le bloc "#"
-                    tab[y + 2][x] = 10; // Déplace le bloc "#" une case après dans la direction du déplacement
+                    tab[y + 2][x] = 10; // Déplace le bloc "↓" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
                     } else if (tab[x][y] == 10) {
@@ -165,7 +165,7 @@ int main() {
                         }
                 } else if (tab[y][x - 1] == 11) {
                     tab[y][x - 1] = 0; // Fait disparaître le bloc "#"
-                    tab[y][x - 2] = 11; // Déplace le bloc "#" une case après dans la direction du déplacement
+                    tab[y][x - 2] = 11; // Déplace le bloc "←" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
                     } else if (tab[x][y] == 11) {
@@ -181,7 +181,7 @@ int main() {
                         }
                 } else if (tab[y][x + 1] == 12) {
                     tab[y][x + 1] = 0; // Fait disparaître le bloc "#"
-                    tab[y][x + 2] = 12; // Déplace le bloc "#" une case après dans la direction du déplacement
+                    tab[y][x + 2] = 12; // Déplace le bloc "→" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
                     } else if (tab[x][y] == 12) {
