@@ -103,7 +103,6 @@ int main() {
             if (timerData.temps == 0 || tab[y][x] == 6) {
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
-                sleep(2);  // Attendez quelques secondes avant de reprendre
             }
 
             // Code pour déplacer le personnage
