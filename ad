@@ -417,8 +417,6 @@ void menu() {
 
 
 
-#include "sousp.h"
-
 
 int main() {
     snoopy();
