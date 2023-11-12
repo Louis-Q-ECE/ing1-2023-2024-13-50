@@ -1,4 +1,4 @@
-#include "sousp.h"
+
 #include <stdio.h>
 #include <windows.h>
 #include <unistd.h>
@@ -25,7 +25,7 @@ void *timerThread(void *arg) {
 }
 
 
-void nv1() {
+int main() {
     SetConsoleOutputCP(65001);
     int tab[12][22];
     char character = 'S';
@@ -43,8 +43,7 @@ void nv1() {
                 tab[a][b] = 3;
             } else if (a == 2 && b == 4 || a == 2 && b == 5 || a == 2 && b == 6 || a == 2 && b == 6) { // bloc poussable
                 tab[a][b] = 4;
-            } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 ||
-                       a == 8 && b == 11) { // bloc cassable
+            } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 || a == 8 && b == 11) { // bloc cassable
                 tab[a][b] = 5;
             } else if (a == 8 && b == 12 || a == 9 && b == 12 || a == 5 && b == 4 || a == 5 && b == 5) { // bloc piégé
                 tab[a][b] = 6;
@@ -67,6 +66,9 @@ void nv1() {
         // Boucle principale
         while (timerData.temps > 0) {
             system("cls");  // Efface l'écran
+
+            // Affichage du nombre de vies
+            printf("Vies restantes : %d\n", vie);
 
 
             // Affichage du plateau avec le personnage
@@ -94,6 +96,14 @@ void nv1() {
                     }
                 }
                 printf("\n");
+            }
+
+
+            // le joueur perd une vie si le temps est écoulé ou si le personnage touche un bloc piégé
+            if (timerData.temps == 0 || tab[y][x] == 6) {
+                vie--;
+                printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
+                sleep(2);  // Attendez quelques secondes avant de reprendre
             }
 
             // Code pour déplacer le personnage
@@ -166,13 +176,5 @@ void nv1() {
         }
         pthread_join(timerThreadId, NULL);
 
-        // Décrémente le nombre de vies si le temps est écoulé ou si le personnage touche un bloc piégé
-        if (timerData.temps <= 0 || tab[y][x] == 6) {
-            vie--;
-            printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
-            sleep(2);  // Attendez quelques secondes avant de reprendre
-            break;
-        }
     }
 }
-
