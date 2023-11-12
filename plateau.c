@@ -28,7 +28,7 @@ void *timerThread(void *arg) {
 int main() {
     SetConsoleOutputCP(65001);
     int tab[12][22];
-    char character = 'S';
+    char character = 's';
     int x = 10, y = 5;
     int vie = 3;  // Nombre initial de vies
 
@@ -43,7 +43,7 @@ int main() {
                 tab[a][b] = 3;
             } else if (a == 2 && b == 4 ) { // bloc poussable vers le haut
                 tab[a][b] = 4;
-            } else if (a == 2 && b == 5 ) { // bloc poussable vers le bas 
+            } else if (a == 2 && b == 5 ) { // bloc poussable vers le bas
                 tab[a][b] = 10;
             }  else if (a == 2 && b == 6) { // bloc poussable vers la gauche
                 tab[a][b] = 11;
@@ -89,19 +89,19 @@ int main() {
                         } else if (tab[a][b] == 2) {
                             printf("|");
                         } else if (tab[a][b] == 3) {
-                            printf("A");
+                            printf("♫");
                         } else if (tab[a][b] == 4) {
-                            printf("r");
+                            printf("↑");
                         } else if (tab[a][b] == 10) {
-                            printf("t");
+                            printf("↓");
                         }else if (tab[a][b] == 11) {
-                            printf("y");
+                            printf("←");
                         }else if (tab[a][b] == 12) {
-                            printf("u");
+                            printf("→");
                         }else if (tab[a][b] == 5) {
-                            printf("0");
+                            printf("♠");
                         } else if (tab[a][b] == 6) {
-                            printf("&");
+                            printf("♣");
                         } else {
                             printf(" ");
                         }
