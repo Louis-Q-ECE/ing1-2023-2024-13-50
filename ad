@@ -400,5 +400,3 @@ else {
             EffacerEcran();
             regles();
             sleep(15);
-
-
