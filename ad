@@ -304,10 +304,6 @@ void menu() {
 
 
     //si le joueur appuie sur 1 alors les règles du jeu apparaissent.
-    if (option == 1) {
-        regles();
-        printf("voulez vous retourner dans le menu ? o/n\n");
-        lettre = getch();
         if (option == 1) {
             regles();
             printf("voulez vous retourner dans le menu ? tapez la lettre o, sinon tapez n'importe qu'elle lettre \n");
