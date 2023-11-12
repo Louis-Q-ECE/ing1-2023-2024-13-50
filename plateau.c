@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <windows.h>
 #include <unistd.h>
@@ -8,8 +7,16 @@
 struct TimerData {
     int temps;
 };
+int oiseauxRestant = 4;
 
-// Fonction de thread pour gérer le timer
+void win(){
+    // lorsque le joueur ramasse tous les oiseaux
+    if (oiseauxRestant == 0) {
+        printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
+        exit(0);
+    }
+}
+
 void *timerThread(void *arg) {
     struct TimerData *timerData = (struct TimerData *)arg;
 
@@ -28,10 +35,8 @@ void *timerThread(void *arg) {
 int main() {
     SetConsoleOutputCP(65001);
     int tab[12][22];
-    char character = 's';
     int x = 10, y = 5;
     int vie = 3;  // Nombre initial de vies
-    int i = 0;
 
     // Initialisation du plateau
     for (int a = 0; a < 12; a++) {
@@ -42,15 +47,15 @@ int main() {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
-            } else if (a == 2 && b == 4 ) { // bloc poussable vers le haut
+            } else if (a == 2 && b == 4) { // bloc poussable vers le haut
                 tab[a][b] = 4;
-            } else if (a == 2 && b == 5 ) { // bloc poussable vers le bas
+            } else if (a == 2 && b == 5) { // bloc poussable vers le bas
                 tab[a][b] = 10;
-            }  else if (a == 2 && b == 6) { // bloc poussable vers la gauche
+            } else if (a == 2 && b == 6) { // bloc poussable vers la gauche
                 tab[a][b] = 11;
-            }  else if (a == 2 && b == 9) { // bloc poussable vers la droite
+            } else if (a == 2 && b == 9) { // bloc poussable vers la droite
                 tab[a][b] = 12;
-            }  else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 || a == 8 && b == 11) { // bloc cassable
+            } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 ||a == 8 && b == 11) { // bloc cassable
                 tab[a][b] = 5;
             } else if (a == 8 && b == 12 || a == 9 && b == 12 || a == 5 && b == 4 || a == 5 && b == 5) { // bloc piégé
                 tab[a][b] = 6;
@@ -83,7 +88,7 @@ int main() {
             for (int a = 0; a < 12; a++) {
                 for (int b = 0; b < 22; b++) {
                     if (a == y && b == x) {
-                        printf("%c", character);
+                        printf("♂");
                     } else {
                         if (tab[a][b] == 1) {
                             printf("-");
@@ -95,11 +100,11 @@ int main() {
                             printf("↑");
                         } else if (tab[a][b] == 10) {
                             printf("↓");
-                        }else if (tab[a][b] == 11) {
+                        } else if (tab[a][b] == 11) {
                             printf("←");
-                        }else if (tab[a][b] == 12) {
+                        } else if (tab[a][b] == 12) {
                             printf("→");
-                        }else if (tab[a][b] == 5) {
+                        } else if (tab[a][b] == 5) {
                             printf("♠");
                         } else if (tab[a][b] == 6) {
                             printf("♣");
@@ -112,86 +117,108 @@ int main() {
             }
 
 
+
             // le joueur perd une vie si le temps est écoulé ou si le personnage touche un bloc piégé
-            if (timerData.temps == 1 || tab[y][x] == 6) {
+            if (timerData.temps == 0 || tab[y][x] == 6) {
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
                 sleep(1);  // faire une pause avant de reprendre
-            }else if (vie == 0) {
+            } else if (vie == 0) {
                 printf("\nGame over\n");
                 break;
             }
 
 
-            // Code pour déplacer le personnage et les blocszzzz
-            char key = getch();
-            if (key == 'z' && y > 1) {
-                    if (tab[y - 1][x] == 3 || tab[y - 1][x] == 5) {
-                        tab[y - 1][x] = 0; // Fait disparaître le "♫" et le bloc cassable
+
+            // Code pour déplacer le personnage
+                char key = getch();
+                if (key == 'z' && y > 1) {
+                    // Vérifiez si la case de destination n'est pas un bloc poussable
+                    if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
+                        if (tab[y - 1][x] == 3 || tab[y - 1][x] == 5) {
+                            tab[y - 1][x] = 0; // Fait disparaître l'oiseau
+                            if (tab[x][y] == 0) {
+                                printf(" ");
+                                oiseauxRestant--;
+                                win();
+                            }
+                        }
+                    } else if (tab[y - 1][x] == 4) {
+                        tab[y - 1][x] = 0;
+                        tab[y - 2][x] = 4; // Déplace le bloc une case aprés dans la direction du déplacement
                         if (tab[x][y] == 0) {
                             printf(" ");
+                        } else if (tab[x][y] == 4) {
+                            printf("#");
                         }
-                } else if (tab[y - 1][x] == 4) {
-                    tab[y - 1][x] = 0; // Fait disparaître le bloc "↑"
-                    tab[y - 2][x] = 4; // Déplace le bloc "↑" une case aprés dans la direction du déplacement
-                    if (tab[x][y] == 0) {
-                        printf(" ");
-                    } else if (tab[x][y] == 4) {
-                        printf("↑");
                     }
-                }
-                y--;
-            } else if (key == 's' && y < 10) {
-                    if (tab[y + 1][x] == 3 || tab[y + 1][x] == 5) {
-                        tab[y + 1][x] = 0; // Fait disparaître le "♫" et le bloc cassable
+                    y--;
+                } else if (key == 's' && y < 10) {
+                    // Vérifiez si la case de destination n'est pas un bloc poussable
+                    if (tab[y + 1][x] != 4 && tab[y + 1][x] != 10 && tab[y + 1][x] != 11 && tab[y + 1][x] != 12) {
+                        if (tab[y + 1][x] == 3 || tab[y + 1][x] == 5) {
+                            tab[y + 1][x] = 0; // Fait disparaître l'oiseau
+                            if (tab[x][y] == 0) {
+                                printf(" ");
+                                oiseauxRestant--;
+                                win();
+                            }
+                        }
+                    } else if (tab[y + 1][x] == 10) {
+                        tab[y + 1][x] = 0;
+                        tab[y + 2][x] = 10; // Déplace le bloc une case après dans la direction du déplacement
                         if (tab[x][y] == 0) {
                             printf(" ");
+                        } else if (tab[x][y] == 10) {
+                            printf("#");
                         }
-                } else if (tab[y + 1][x] == 10) {
-                        tab[y + 2][x] = 10; // Déplace le bloc "↓" une case après dans la direction du déplacement
-                    tab[y + 1][x] = 0; // Fait disparaître le bloc "↓"
-                    tab[y + 2][x] = 10; // Déplace le bloc "↓" une case après dans la direction du déplacement
-                    if (tab[x][y] == 0) {
-                        printf(" ");
-                    } else if (tab[x][y] == 10) {
-                        printf("↓");
                     }
-                }
-                y++;
-            } else if (key == 'q' && x > 1) {
-                    if (tab[y][x - 1] == 3 || tab[y][x - 1] == 5) {
-                        tab[y][x - 1] = 0; // Fait disparaître le "♫" et le bloc cassable
-                        if (tab[x][y - 1] == 0) {
-                            printf(" ");
+                    y++;
+                } else if (key == 'q' && x > 1) {
+                    // Vérifiez si la case de destination n'est pas un bloc poussable
+                    if (tab[y][x - 1] != 4 && tab[y][x - 1] != 10 && tab[y][x - 1] != 11 && tab[y][x - 1] != 12) {
+                        if (tab[y][x - 1] == 3 || tab[y][x - 1] == 5) {
+                            tab[y][x - 1] = 0; // Fait disparaître l'oiseau
+                            if (tab[x][y - 1] == 0) {
+                                printf(" ");
+                                oiseauxRestant--;
+                                win();
+                            }
                         }
-                } else if (tab[y][x - 1] == 11) {
-                    tab[y][x - 1] = 0; // Fait disparaître le bloc "←"
-                    tab[y][x - 2] = 11; // Déplace le bloc "←" une case après dans la direction du déplacement
-                    if (tab[x][y] == 0) {
-                        printf(" ");
-                    } else if (tab[x][y] == 11) {
-                        printf("←");
-                    }
-                }
-                x--;
-            } else if (key == 'd' && x < 20) {
-                    if (tab[y][x + 1] == 3 || tab[y][x + 1] == 5) {
-                        tab[y][x + 1] = 0; // Fait disparaître le "♫" et le bloc cassable
+                    } else if (tab[y][x - 1] == 11) {
+                        tab[y][x - 1] = 0;
+                        tab[y][x - 2] = 11; // Déplace le bloc une case après dans la direction du déplacement
                         if (tab[x][y] == 0) {
                             printf(" ");
+                        } else if (tab[x][y] == 11) {
+                            printf("#");
                         }
-                } else if (tab[y][x + 1] == 12) {
-                    tab[y][x + 1] = 0; // Fait disparaître le bloc "→"
-                    tab[y][x + 2] = 12; // Déplace le bloc "→" une case après dans la direction du déplacement
-                    if (tab[x][y] == 0) {
-                        printf(" ");
-                    } else if (tab[x][y] == 12) {
-                        printf("→");
                     }
+                    x--;
+                } else if (key == 'd' && x < 20) {
+                    // Vérifiez si la case de destination n'est pas un bloc poussable
+                    if (tab[y][x + 1] != 4 && tab[y][x + 1] != 10 && tab[y][x + 1] != 11 && tab[y][x + 1] != 12) {
+                        if (tab[y][x + 1] == 3 || tab[y][x + 1] == 5) {
+                            tab[y][x + 1] = 0; // Fait disparaître l'oiseau
+                            if (tab[x][y] == 0) {
+                                printf(" ");
+                                oiseauxRestant--;
+                                win();
+                            }
+                        }
+                    } else if (tab[y][x + 1] == 12) {
+                        tab[y][x + 1] = 0;
+                        tab[y][x + 2] = 12; // Déplace le bloc une case après dans la direction du déplacement
+                        if (tab[x][y] == 0) {
+                            printf(" ");
+                        } else if (tab[x][y] == 12) {
+                            printf("#");
+                        }
+                    }
+                    x++;
                 }
-                x++;
-            }
         }
+
         pthread_join(timerThreadId, NULL);
+
     }
-}
