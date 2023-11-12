@@ -31,6 +31,7 @@ int main() {
     char character = 's';
     int x = 10, y = 5;
     int vie = 3;  // Nombre initial de vies
+    int i = 0;
 
     // Initialisation du plateau
     for (int a = 0; a < 12; a++) {
@@ -125,74 +126,66 @@ int main() {
             // Code pour déplacer le personnage
             char key = getch();
             if (key == 'z' && y > 1) {
-                // Vérifiez si la case de destination n'est pas un bloc poussable
-                if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
-                if (tab[y - 1][x] == 3 || tab[y - 1][x] == 5) {
-                    tab[y - 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
-                    if (tab[x][y] == 0) {
-                        printf(" ");
-                    }}
+                    if (tab[y - 1][x] == 3 || tab[y - 1][x] == 5) {
+                        tab[y - 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
+                        if (tab[x][y] == 0) {
+                            printf(" ");
+                        }
                 } else if (tab[y - 1][x] == 4) {
                     tab[y - 1][x] = 0; // Fait disparaître le bloc "#"
                     tab[y - 2][x] = 4; // Déplace le bloc "#" une case aprés dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
                     } else if (tab[x][y] == 4) {
-                        printf("#");
+                        printf("↑");
                     }
                 }
                 y--;
             } else if (key == 's' && y < 10) {
-                // Vérifiez si la case de destination n'est pas un bloc poussable
-                if (tab[y + 1][x] != 4 && tab[y + 1][x] != 10 && tab[y + 1][x] != 11 && tab[y + 1][x] != 12) {
-                if (tab[y + 1][x] == 3 || tab[y + 1][x] == 5) {
-                    tab[y + 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
-                    if (tab[x][y] == 0) {
-                        printf(" ");
-                    }}
+                    if (tab[y + 1][x] == 3 || tab[y + 1][x] == 5) {
+                        tab[y + 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
+                        if (tab[x][y] == 0) {
+                            printf(" ");
+                        }
                 } else if (tab[y + 1][x] == 10) {
                     tab[y + 1][x] = 0; // Fait disparaître le bloc "#"
                     tab[y + 2][x] = 10; // Déplace le bloc "#" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
                     } else if (tab[x][y] == 10) {
-                        printf("#");
+                        printf("↓");
                     }
                 }
                 y++;
             } else if (key == 'q' && x > 1) {
-                // Vérifiez si la case de destination n'est pas un bloc poussable
-                if (tab[y][x - 1] != 4 && tab[y][x - 1] != 10 && tab[y][x - 1] != 11 && tab[y][x - 1] != 12) {
-                if (tab[y][x - 1] == 3 || tab[y][x - 1] == 5) {
-                    tab[y][x - 1] = 0; // Fait disparaître le "A" et le bloc cassable
-                    if (tab[x][y - 1] == 0) {
-                        printf(" ");
-                    }}
+                    if (tab[y][x - 1] == 3 || tab[y][x - 1] == 5) {
+                        tab[y][x - 1] = 0; // Fait disparaître le "A" et le bloc cassable
+                        if (tab[x][y - 1] == 0) {
+                            printf(" ");
+                        }
                 } else if (tab[y][x - 1] == 11) {
                     tab[y][x - 1] = 0; // Fait disparaître le bloc "#"
                     tab[y][x - 2] = 11; // Déplace le bloc "#" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
                     } else if (tab[x][y] == 11) {
-                        printf("#");
+                        printf("←");
                     }
                 }
                 x--;
             } else if (key == 'd' && x < 20) {
-                // Vérifiez si la case de destination n'est pas un bloc poussable
-                if (tab[y][x + 1] != 4 && tab[y][x + 1] != 10 && tab[y][x + 1] != 11 && tab[y][x + 1] != 12) {
-                if (tab[y][x + 1] == 3 || tab[y][x + 1] == 5) {
-                    tab[y][x + 1] = 0; // Fait disparaître le "A" et le bloc cassable
-                    if (tab[x][y] == 0) {
-                        printf(" ");
-                    }}
+                    if (tab[y][x + 1] == 3 || tab[y][x + 1] == 5) {
+                        tab[y][x + 1] = 0; // Fait disparaître le "A" et le bloc cassable
+                        if (tab[x][y] == 0) {
+                            printf(" ");
+                        }
                 } else if (tab[y][x + 1] == 12) {
                     tab[y][x + 1] = 0; // Fait disparaître le bloc "#"
                     tab[y][x + 2] = 12; // Déplace le bloc "#" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
                     } else if (tab[x][y] == 12) {
-                        printf("#");
+                        printf("→");
                     }
                 }
                 x++;
