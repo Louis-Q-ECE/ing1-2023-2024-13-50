@@ -25,11 +25,12 @@ void *timerThread(void *arg) {
 }
 
 
-void nv1(){
+void nv1() {
     SetConsoleOutputCP(65001);
     int tab[12][22];
-    char character = 'P';
+    char character = 'S';
     int x = 10, y = 5;
+    int vie = 3;  // Nombre initial de vies
 
     // Initialisation du plateau
     for (int a = 0; a < 12; a++) {
@@ -42,7 +43,8 @@ void nv1(){
                 tab[a][b] = 3;
             } else if (a == 2 && b == 4 || a == 2 && b == 5 || a == 2 && b == 6 || a == 2 && b == 6) { // bloc poussable
                 tab[a][b] = 4;
-            } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 || a == 8 && b == 11) { // bloc cassable
+            } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 ||
+                       a == 8 && b == 11) { // bloc cassable
                 tab[a][b] = 5;
             } else if (a == 8 && b == 12 || a == 9 && b == 12 || a == 5 && b == 4 || a == 5 && b == 5) { // bloc piégé
                 tab[a][b] = 6;
@@ -51,117 +53,126 @@ void nv1(){
             }
         }
     }
+    while (vie > 0) {
+        // Initialisation des données pour le thread du timer
+        struct TimerData timerData;
+        timerData.temps = 120;
 
-    // Initialisation des données pour le thread du timer
-    struct TimerData timerData;
-    timerData.temps = 120;
+        // Création du thread du timer
+        pthread_t timerThreadId;
+        if (pthread_create(&timerThreadId, NULL, timerThread, (void *) &timerData) != 0) {
+            fprintf(stderr, "Erreur lors de la création du thread du timer.\n");
+        }
 
-    // Création du thread du timer
-    pthread_t timerThreadId;
-    if (pthread_create(&timerThreadId, NULL, timerThread, (void *)&timerData) != 0) {
-        fprintf(stderr, "Erreur lors de la création du thread du timer.\n");
-    }
+        // Boucle principale
+        while (timerData.temps > 0) {
+            system("cls");  // Efface l'écran
 
-    // Boucle principale
-    while (1) {
-        system("cls");  // Efface l'écran
 
-        // Affichage du plateau avec le personnage
-        printf("Plateau du niveau :\n");
-        for (int a = 0; a < 12; a++) {
-            for (int b = 0; b < 22; b++) {
-                if (a == y && b == x) {
-                    printf("%c", character);
-                } else {
-                    if (tab[a][b] == 1) {
-                        printf("-");
-                    } else if (tab[a][b] == 2) {
-                        printf("|");
-                    } else if (tab[a][b] == 3) {
-                        printf("A");
-                    } else if (tab[a][b] == 4) {
-                        printf("#");
-                    } else if (tab[a][b] == 5) {
-                        printf("0");
-                    } else if (tab[a][b] == 6) {
-                        printf("&");
+            // Affichage du plateau avec le personnage
+            printf("Plateau du niveau :\n");
+            for (int a = 0; a < 12; a++) {
+                for (int b = 0; b < 22; b++) {
+                    if (a == y && b == x) {
+                        printf("%c", character);
                     } else {
-                        printf(" ");
+                        if (tab[a][b] == 1) {
+                            printf("-");
+                        } else if (tab[a][b] == 2) {
+                            printf("|");
+                        } else if (tab[a][b] == 3) {
+                            printf("A");
+                        } else if (tab[a][b] == 4) {
+                            printf("#");
+                        } else if (tab[a][b] == 5) {
+                            printf("0");
+                        } else if (tab[a][b] == 6) {
+                            printf("&");
+                        } else {
+                            printf(" ");
+                        }
                     }
                 }
+                printf("\n");
             }
-            printf("\n");
-        }
 
-        // Code pour déplacer le personnage
-        char key = getch();
-        if (key == 'z' && y > 1) {
-            if (tab[y - 1][x] == 3 || tab[y - 1][x] == 5) {
-                tab[y - 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
-                if (tab[x][y] == 0) {
-                    printf(" ");
+            // Code pour déplacer le personnage
+            char key = getch();
+            if (key == 'z' && y > 1) {
+                if (tab[y - 1][x] == 3 || tab[y - 1][x] == 5) {
+                    tab[y - 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
+                    if (tab[x][y] == 0) {
+                        printf(" ");
+                    }
+                } else if (tab[y - 1][x] == 4) {
+                    tab[y - 1][x] = 0; // Fait disparaître le bloc "#"
+                    tab[y - 2][x] = 4; // Déplace le bloc "#" une case avant dans la direction du déplacement
+                    if (tab[x][y] == 0) {
+                        printf(" ");
+                    } else if (tab[x][y] == 4) {
+                        printf("#");
+                    }
                 }
-            } else if (tab[y - 1][x] == 4) {
-                tab[y - 1][x] = 0; // Fait disparaître le bloc "#"
-                tab[y - 2][x] = 4; // Déplace le bloc "#" une case avant dans la direction du déplacement
-                if (tab[x][y] == 0) {
-                    printf(" ");
-                } else if (tab[x][y] == 4) {
-                    printf("#");
+                y--;
+            } else if (key == 's' && y < 10) {
+                if (tab[y + 1][x] == 3 || tab[y + 1][x] == 5) {
+                    tab[y + 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
+                    if (tab[x][y] == 0) {
+                        printf(" ");
+                    }
+                } else if (tab[y + 1][x] == 4) {
+                    tab[y + 1][x] = 0; // Fait disparaître le bloc "#"
+                    tab[y + 2][x] = 4; // Déplace le bloc "#" une case après dans la direction du déplacement
+                    if (tab[x][y] == 0) {
+                        printf(" ");
+                    } else if (tab[x][y] == 4) {
+                        printf("#");
+                    }
                 }
+                y++;
+            } else if (key == 'q' && x > 1) {
+                if (tab[y][x - 1] == 3 || tab[y][x - 1] == 5) {
+                    tab[y][x - 1] = 0; // Fait disparaître le "A" et le bloc cassable
+                    if (tab[x][y - 1] == 0) {
+                        printf(" ");
+                    }
+                } else if (tab[y][x - 1] == 4) {
+                    tab[y][x - 1] = 0; // Fait disparaître le bloc "#"
+                    tab[y][x - 2] = 4; // Déplace le bloc "#" une case avant dans la direction du déplacement
+                    if (tab[x][y] == 0) {
+                        printf(" ");
+                    } else if (tab[x][y] == 4) {
+                        printf("#");
+                    }
+                }
+                x--;
+            } else if (key == 'd' && x < 20) {
+                if (tab[y][x + 1] == 3 || tab[y][x + 1] == 5) {
+                    tab[y][x + 1] = 0; // Fait disparaître le "A" et le bloc cassable
+                    if (tab[x][y] == 0) {
+                        printf(" ");
+                    }
+                } else if (tab[y][x + 1] == 4) {
+                    tab[y][x + 1] = 0; // Fait disparaître le bloc "#"
+                    tab[y][x + 2] = 4; // Déplace le bloc "#" une case après dans la direction du déplacement
+                    if (tab[x][y] == 0) {
+                        printf(" ");
+                    } else if (tab[x][y] == 4) {
+                        printf("#");
+                    }
+                }
+                x++;
             }
-            y--;
-        } else if (key == 's' && y < 10) {
-            if (tab[y + 1][x] == 3 || tab[y + 1][x] == 5) {
-                tab[y + 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
-                if (tab[x][y] == 0) {
-                    printf(" ");
-                }
-            } else if (tab[y + 1][x] == 4) {
-                tab[y + 1][x] = 0; // Fait disparaître le bloc "#"
-                tab[y + 2][x] = 4; // Déplace le bloc "#" une case après dans la direction du déplacement
-                if (tab[x][y] == 0) {
-                    printf(" ");
-                } else if (tab[x][y] == 4) {
-                    printf("#");
-                }
-            }
-            y++;
-        } else if (key == 'q' && x > 1) {
-            if (tab[y][x - 1] == 3 || tab[y][x - 1] == 5) {
-                tab[y][x - 1] = 0; // Fait disparaître le "A" et le bloc cassable
-                if (tab[x][y - 1] == 0) {
-                    printf(" ");
-                }
-            } else if (tab[y][x - 1] == 4) {
-                tab[y][x - 1] = 0; // Fait disparaître le bloc "#"
-                tab[y][x - 2] = 4; // Déplace le bloc "#" une case avant dans la direction du déplacement
-                if (tab[x][y] == 0) {
-                    printf(" ");
-                } else if (tab[x][y] == 4) {
-                    printf("#");
-                }
-            }
-            x--;
-        } else if (key == 'd' && x < 20) {
-            if (tab[y][x + 1] == 3 || tab[y][x + 1] == 5) {
-                tab[y][x + 1] = 0; // Fait disparaître le "A" et le bloc cassable
-                if (tab[x][y] == 0) {
-                    printf(" ");
-                }
-            } else if (tab[y][x + 1] == 4) {
-                tab[y][x + 1] = 0; // Fait disparaître le bloc "#"
-                tab[y][x + 2] = 4; // Déplace le bloc "#" une case après dans la direction du déplacement
-                if (tab[x][y] == 0) {
-                    printf(" ");
-                } else if (tab[x][y] == 4) {
-                    printf("#");
-                }
-            }
-            x++;
+        }
+        pthread_join(timerThreadId, NULL);
+
+        // Décrémente le nombre de vies si le temps est écoulé ou si le personnage touche un bloc piégé
+        if (timerData.temps <= 0 || tab[y][x] == 6) {
+            vie--;
+            printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
+            sleep(2);  // Attendez quelques secondes avant de reprendre
+            break;
         }
     }
-    pthread_join(timerThreadId, NULL);
-
 }
 
