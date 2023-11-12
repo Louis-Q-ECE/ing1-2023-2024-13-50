@@ -113,7 +113,7 @@ int main() {
 
 
             // le joueur perd une vie si le temps est écoulé ou si le personnage touche un bloc piégé
-            if (timerData.temps == 0 || tab[y][x] == 6) {
+            if (timerData.temps == 1 || tab[y][x] == 6) {
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
                 sleep(1);  // faire une pause avant de reprendre
@@ -123,16 +123,16 @@ int main() {
             }
 
 
-            // Code pour déplacer le personnage
+            // Code pour déplacer le personnage et les blocszzzz
             char key = getch();
             if (key == 'z' && y > 1) {
                     if (tab[y - 1][x] == 3 || tab[y - 1][x] == 5) {
-                        tab[y - 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
+                        tab[y - 1][x] = 0; // Fait disparaître le "♫" et le bloc cassable
                         if (tab[x][y] == 0) {
                             printf(" ");
                         }
                 } else if (tab[y - 1][x] == 4) {
-                    tab[y - 1][x] = 0; // Fait disparaître le bloc "#"
+                    tab[y - 1][x] = 0; // Fait disparaître le bloc "↑"
                     tab[y - 2][x] = 4; // Déplace le bloc "↑" une case aprés dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
@@ -143,12 +143,13 @@ int main() {
                 y--;
             } else if (key == 's' && y < 10) {
                     if (tab[y + 1][x] == 3 || tab[y + 1][x] == 5) {
-                        tab[y + 1][x] = 0; // Fait disparaître le "A" et le bloc cassable
+                        tab[y + 1][x] = 0; // Fait disparaître le "♫" et le bloc cassable
                         if (tab[x][y] == 0) {
                             printf(" ");
                         }
                 } else if (tab[y + 1][x] == 10) {
-                    tab[y + 1][x] = 0; // Fait disparaître le bloc "#"
+                        tab[y + 2][x] = 10; // Déplace le bloc "↓" une case après dans la direction du déplacement
+                    tab[y + 1][x] = 0; // Fait disparaître le bloc "↓"
                     tab[y + 2][x] = 10; // Déplace le bloc "↓" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
@@ -159,12 +160,12 @@ int main() {
                 y++;
             } else if (key == 'q' && x > 1) {
                     if (tab[y][x - 1] == 3 || tab[y][x - 1] == 5) {
-                        tab[y][x - 1] = 0; // Fait disparaître le "A" et le bloc cassable
+                        tab[y][x - 1] = 0; // Fait disparaître le "♫" et le bloc cassable
                         if (tab[x][y - 1] == 0) {
                             printf(" ");
                         }
                 } else if (tab[y][x - 1] == 11) {
-                    tab[y][x - 1] = 0; // Fait disparaître le bloc "#"
+                    tab[y][x - 1] = 0; // Fait disparaître le bloc "←"
                     tab[y][x - 2] = 11; // Déplace le bloc "←" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
@@ -175,12 +176,12 @@ int main() {
                 x--;
             } else if (key == 'd' && x < 20) {
                     if (tab[y][x + 1] == 3 || tab[y][x + 1] == 5) {
-                        tab[y][x + 1] = 0; // Fait disparaître le "A" et le bloc cassable
+                        tab[y][x + 1] = 0; // Fait disparaître le "♫" et le bloc cassable
                         if (tab[x][y] == 0) {
                             printf(" ");
                         }
                 } else if (tab[y][x + 1] == 12) {
-                    tab[y][x + 1] = 0; // Fait disparaître le bloc "#"
+                    tab[y][x + 1] = 0; // Fait disparaître le bloc "→"
                     tab[y][x + 2] = 12; // Déplace le bloc "→" une case après dans la direction du déplacement
                     if (tab[x][y] == 0) {
                         printf(" ");
@@ -192,6 +193,5 @@ int main() {
             }
         }
         pthread_join(timerThreadId, NULL);
-
     }
 }
