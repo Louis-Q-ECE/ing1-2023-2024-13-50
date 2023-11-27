@@ -1,4 +1,4 @@
-#include "sousp.h"
+#include "sous.p.h"
 #include <stdio.h>
 #include <windows.h>
 #include <unistd.h>
@@ -54,7 +54,7 @@ void *timerThread(void *arg) {
 }
 
 
-void nv1() {
+void nv1(int ChoixBip) {
     SetConsoleOutputCP(65001);
     int tab[12][22];
     int x = 10, y = 5;
@@ -146,7 +146,44 @@ void nv1() {
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
                 sleep(1);  // faire une pause avant de reprendre
             } else if (vie == 0) {
-                printf("\nGame over\n");
+                EffacerEcran();
+                if (ChoixBip == 1) {
+                    Beep(600, 500);
+                    usleep(100000);
+                    Beep(500, 500);
+                    usleep(100000);
+                    Beep(400, 500);
+                    usleep(100000);
+                    Beep(300, 4000);
+
+                    int i;
+                    char MonAscii[20][1000];
+                    strcpy(MonAscii[0],"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⢀⣤⣤⣤⣶⣶⣷⣤⣀");
+                    strcpy(MonAscii[1],"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⣶⣶⠀⠀⠀⠀⣠⣾⣿⣿⡇⠀⣿⣿⣿⣿⠿⠛⠉⠉⠀");
+                    strcpy(MonAscii[2],"⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⠀⠀⠀⠀⠀⢀⣿⣿⣶⡀⠀⠀⠀⠀⠀⣾⣿⣿⣿⡄⠀⢀⣴⣿⣿⣿⣿⠁⢸⣿⣿⣿⣀⣤⡀⠀⠀⠀");
+                    strcpy(MonAscii[3],"⠀⠀⠀⠀⠀⣠⣴⣶⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⣼⣿⣿⣿⣧⠀⠀⠀⠀⢰⣿⣿⣿⣿⣇⣠⣿⣿⣿⣿⣿⡏⢠⣿⣿⣿⣿⣿⡿⠗⠂⠀⠀");
+                    strcpy(MonAscii[4],"⠀⠀⠀⣰⣾⣿⣿⠟⠛⠉⠉⠉⠉⠋⠀⠀⠀⣰⣿⣿⣿⣿⣿⣇⣠⣤⣤⣿⣿⣿⢿⣿⣿⣿⣿⢿⣿⣿⡿⠀⣼⣿⣿⡟⠉⠁⢀⣀⡄⠀⠀");
+                    strcpy(MonAscii[5],"⢀⣾⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣴⣿⣿⣿⣿⡿⣿⣿⣿⡏⠈⢿⣿⣿⠏⣾⣿⣿⠃⢠⣿⣿⣿⣶⣶⣿⣿⣿⡷⠦⠀");
+                    strcpy(MonAscii[6],"⢠⣾⣿⡿⠀⠀⠀⣀⣠⣴⣶⣿⣿⡷⠀⣠⣿⣿⣿⣿⡿⠟⣿⣿⣿⣠⣿⣿⣿⠀⠀⠀⠀⠁⢸⣿⣿⡏⠀⣼⣿⣿⣿⠿⠛⠛⠉⠀⠀⠀⠀");
+                    strcpy(MonAscii[7],"⢸⣿⣿⠣⣴⣾⣿⣿⣿⣿⣿⣿⡿⠃⣰⣿⣿⣿⠋⠁⠀⠀⠸⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠸⠿⠿⠀⠀⠛⠛⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+                    strcpy(MonAscii[8],"⠸⣿⣿⣆⣉⣻⣭⣿⣿⣿⡿⠋⠀⠀⢿⣿⡿⠁⠀⠀⠀⠀⠀⠹⠟⠛⠛⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+                    strcpy(MonAscii[9],"⠙⠿⣿⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+                    strcpy(MonAscii[10],"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⣶⣶⣶⣶⣦⣄⠀⠀");
+                    strcpy(MonAscii[11],"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣷⠄⣤⣤⣤⣤⣶⣾⣷⣴⣿⣿⣿⣿⠿⠿⠛⣻⣿⣿⣷⡄");
+                    strcpy(MonAscii[12],"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣄⠀⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⢀⣴⣿⠋⢠⣿⣿⣿⠿⠛⠋⠉⠛⣿⣿⣿⠏⢀⣤⣾⣿⣿⡿⠋⠀");
+                    strcpy(MonAscii[13],"⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣾⣿⣿⣿⣿⠓⢹⣿⣿⣷⠀⠀⠀⠀⢀⣶⣿⡿⠁⠀⣾⣿⣿⣟⣠⣤⠀⠀⢸⣿⣿⣿⣾⣿⣿⣿⡟⠋⠀⠀⠀");
+                    strcpy(MonAscii[14],"⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⡿⠛⠉⠸⣿⣦⡈⣿⣿⣿⡇⠀⠀⣰⣿⣿⡿⠁⠀⢸⣿⣿⣿⣿⣿⠿⠷⢀⣿⣿⣿⣿⡿⠛⣿⣿⣿⡀⠀⠀⠀");
+                    strcpy(MonAscii[15],"⠀⠀⠀⠀⢀⣼⣿⣿⡿⠋⠀⠀⠀⠀⣿⣿⣧⠘⣿⣿⣿⡀⣼⣿⣿⡟⠀⠀⢀⣿⣿⣿⠋⠁⠀⣀⣀⣼⣿⣿⡟⠁⠀⠀⠘⣿⣿⣧⠀⠀⠀");
+                    strcpy(MonAscii[16],"⠀⠀⠀⠀⣼⣿⣿⡟⠀⠀⠀⠀⠀⣠⣿⣿⣿⠀⢹⣿⣿⣿⣿⣿⡟⠀⠀⠀⣼⣿⣿⣷⣶⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠸⣿⣿⡆⠀⠀");
+                    strcpy(MonAscii[17],"⠀⠀⠀⠀⢹⣿⣿⣇⠀⠀⢀⣠⣴⣿⣿⣿⡿⠀⠈⣿⣿⣿⣿⡟⠀⠀⠀⢰⣿⣿⣿⠿⠟⠛⠉⠁⠸⢿⡟⠀⠀⠀⠀⠀⠀⠀⠘⠋⠁⠀⠀");
+                    strcpy(MonAscii[18],"⠀⠀⠀⠀⠈⢻⣿⣿⣿⣾⣿⣿⣿⣿⣿⠟⠁⠀⠀⠸⣿⣿⡿⠁⠀⠀⠀⠈⠙⠛⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+                    strcpy(MonAscii[19],"⠀⠀⠀⠀⠀⠀⠉⠛⠿⠿⠿⠿⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+
+                    for (i = 0; i < 20; i++) {
+                        printf("%s", MonAscii[i]);
+                    }
+                }
+
                 break;
             }
 
@@ -286,7 +323,7 @@ void quitter(){
     printf("Vous avez decide de quitter le jeu, on vous attend pour une nouvelle aventure.\n");
     exit(0);
 }
-void menu() {
+void menu(int ChoixBip) {
 
     //nous affichons le menu disponible pour le joueur.
     do {
@@ -325,7 +362,7 @@ void menu() {
 
             if (option == 1) {
                 printf("Vous allez lancer un nouveau jeu a partir du niveau 1.\n");
-                nv1();
+                nv1(ChoixBip);
             } else if (option == 2) {
                 printf("Vous allez charger votre partie dernierement sauvegardee.\n");
             } else if (option == 3) {
@@ -344,7 +381,7 @@ void menu() {
         //si le joueur appuie sur 2 alors il relancera un nouveau jeu donc une nouvelle partie qu'il devra ensuite sauvegardée
     else if (option == 2) {
         printf("Vous allez lancer un nouveau jeu a partir du niveau 1.\n");
-        nv1();
+        nv1(ChoixBip);
     }
 
         //si le joueur appuie sur 3 alors il chargera sa partie qui a été sauvegardée
@@ -365,8 +402,8 @@ void menu() {
     }
 }
 
-void snoopy() {
-    int ChoixBip = 2;
+void snoopy(int ChoixBip) {
+
     int i;
     char MonAscii[16][1000];
     strcpy(MonAscii[0], "         _\n");
@@ -387,50 +424,49 @@ void snoopy() {
     strcpy(MonAscii[15], "        `:/\n");
 
 
-    do {
-
-        printf("Voulez-vous du son ? \n");
-        printf("\n0 = muet    1 = son active \n");
-        scanf("%d", &ChoixBip);
-        EffacerEcran();
-
-    } while (ChoixBip != 0 && ChoixBip != 1);
-
-
     for (i = 5; i < 21; i++) {
-        usleep(300000); //obligé d'utiliser usleep car sleep pas assez précis
         if (ChoixBip == 1) {
-            Beep(i * 100, 200);
+            Beep(i * 100, 150);
         } else {
-            usleep(200000); // pause assez longue
+            usleep(150000); // pause assez longue
         }
+        usleep(100000); //obligé d'utiliser usleep car sleep pas assez précis
 
         printf("%s", MonAscii[i - 5]);
     }
     EffacerEcran();
 }
 
-
-
-
-#include "sousp.h"
-
+#include "sous.p.h"
+#include <stdio.h>
+#include <windows.h>
 
 int main() {
-    menu();
+    int ChoixBip = 2;
+
+    do {
+        printf("Voulez-vous du son ? \n");
+        printf("\n0 = muet    1 = son active \n");
+        scanf("%d", &ChoixBip);
+        EffacerEcran();
+    } while (ChoixBip != 0 && ChoixBip != 1);
+    snoopy(ChoixBip);
+    menu(ChoixBip);
 }
-
-
-
-
 #ifndef PROJET1_SNOOPY_SOUSP_H
 #define PROJET1_SNOOPY_SOUSP_H
-
-void nv1();
-void menu();
+void EffacerEcran();
+void nv1(int ChoixBip);
+void menu(int ChoixBip);
 void regles();
 void mdp();
 void score();
 void quitter();
-void snoopy();
+void snoopy(int ChoixBip);
 #endif //PROJET1_SNOOPY_SOUSP_H
+
+
+
+
+
+
