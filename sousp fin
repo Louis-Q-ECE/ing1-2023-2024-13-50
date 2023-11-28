@@ -64,7 +64,7 @@ void win(){
     }
 }
 
-int main (int ChoixBip) {
+void nv1 (int ChoixBip) {
     SetConsoleOutputCP(65001);
     int tab[12][22];
     int x = 10, y = 5;
