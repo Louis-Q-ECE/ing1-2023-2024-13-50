@@ -79,17 +79,17 @@ int main (int ChoixBip) {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
-            } else if (a == 2 && b == 4) { // bloc poussable vers le haut
+            } else if (a == 2 && b == 19 ) { // bloc poussable vers le haut
                 tab[a][b] = 4;
             } else if (a == 2 && b == 5) { // bloc poussable vers le bas
                 tab[a][b] = 10;
-            } else if (a == 2 && b == 6) { // bloc poussable vers la gauche
+            } else if (a == 8 && b == 19) { // bloc poussable vers la gauche
                 tab[a][b] = 11;
             } else if (a == 2 && b == 9) { // bloc poussable vers la droite
                 tab[a][b] = 12;
-            } else if (a == 6 && b == 11 || a == 7 && b == 11 || a == 8 && b == 11 ||a == 8 && b == 11) { // bloc cassable
+            } else if (a == 2 && b == 4 || a == 7 && b == 11 || a == 8 && b == 11 ||a == 8 && b == 1) { // bloc cassable
                 tab[a][b] = 5;
-            } else if (a == 8 && b == 12 || a == 9 && b == 12 || a == 5 && b == 4 || a == 5 && b == 5) { // bloc piégé
+            } else if (a == 8 && b == 12 || a == 9 && b == 18 || a == 9 && b == 20 || a == 10 && b == 18 || a == 10 && b == 2 || a == 9 && b == 2 || a == 8 && b == 2 || a == 3 && b == 1 || a == 3 && b == 2 || a == 3 && b == 3 || a == 3 && b == 4 || a == 1 && b == 4) { // bloc piégé
                 tab[a][b] = 6;
             } else {
                 tab[a][b] = 0;  // l'intérieur
