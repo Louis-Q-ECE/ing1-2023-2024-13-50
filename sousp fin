@@ -87,9 +87,9 @@ void nv1 (int ChoixBip) {
                 tab[a][b] = 11;
             } else if (a == 2 && b == 9) { // bloc poussable vers la droite
                 tab[a][b] = 12;
-            } else if (a == 2 && b == 4 || a == 7 && b == 11 || a == 8 && b == 11 ||a == 8 && b == 1) { // bloc cassable
+            } else if (a == 2 && b == 4 ||a == 8 && b == 1) { // bloc cassable
                 tab[a][b] = 5;
-            } else if (a == 8 && b == 12 || a == 9 && b == 18 || a == 9 && b == 20 || a == 10 && b == 18 || a == 10 && b == 2 || a == 9 && b == 2 || a == 8 && b == 2 || a == 3 && b == 1 || a == 3 && b == 2 || a == 3 && b == 3 || a == 3 && b == 4 || a == 1 && b == 4) { // bloc piégé
+            } else if ( a == 9 && b == 18 || a == 9 && b == 20 || a == 10 && b == 18 || a == 10 && b == 2 || a == 9 && b == 2 || a == 8 && b == 2 || a == 3 && b == 1 || a == 3 && b == 2 || a == 3 && b == 3 || a == 3 && b == 4 || a == 1 && b == 4 || a == 3 && b == 20 || a == 1 && b == 18) { // bloc piégé
                 tab[a][b] = 6;
             } else {
                 tab[a][b] = 0;  // l'intérieur
