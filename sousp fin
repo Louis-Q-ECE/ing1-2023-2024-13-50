@@ -2,6 +2,7 @@ JUSTE LE CODE DU NIVEAU 1
 
 
 
+#include "sousp.h"
 #include <stdio.h>
 #include <windows.h>
 #include <unistd.h>
@@ -11,7 +12,6 @@ JUSTE LE CODE DU NIVEAU 1
 void EffacerEcran() {
     system("cls");  // Pour Windows
 }
-
 
 //Déclaration des variables
 int oiseauxRestant = 4;
@@ -49,17 +49,17 @@ void *timerThread(void *arg) {
 }
 
 void win(){
+
     char O,N;
     // lorsque le joueur ramasse tous les oiseaux
     printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
     EffacerEcran();
-    printf("etez-vous pret ? O/N\n");
+    printf("voulez-vous continuer ? O/N\n");
     scanf("%c,%c",&O,&N);
     if(N){
-        printf("attendons 1min\n");
-        sleep(60);
+
     }else{
-        printf("voici le niveau suivant !\n");
+        menu();
 
     }
 }
@@ -87,7 +87,7 @@ void nv1 (int ChoixBip) {
                 tab[a][b] = 11;
             } else if (a == 2 && b == 9) { // bloc poussable vers la droite
                 tab[a][b] = 12;
-            } else if (a == 2 && b == 4 ||a == 8 && b == 1) { // bloc cassable
+            } else if (a == 2 && b == 4 || a == 7 && b == 11 || a == 8 && b == 11 ||a == 8 && b == 1) { // bloc cassable
                 tab[a][b] = 5;
             } else if ( a == 9 && b == 18 || a == 9 && b == 20 || a == 10 && b == 18 || a == 10 && b == 2 || a == 9 && b == 2 || a == 8 && b == 2 || a == 3 && b == 1 || a == 3 && b == 2 || a == 3 && b == 3 || a == 3 && b == 4 || a == 1 && b == 4 || a == 3 && b == 20 || a == 1 && b == 18) { // bloc piégé
                 tab[a][b] = 6;
@@ -153,12 +153,15 @@ void nv1 (int ChoixBip) {
 
             // le joueur perd une vie si le temps est écoulé ou si le personnage touche un bloc piégé
             if (timerData.temps == 0 || tab[y][x] == 6) {
+                pthread_join(timerThreadId,NULL);
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
                 sleep(1);  // faire une pause avant de reprendre
             } else if (vie == 0) {
+                pthread_join(timerThreadId,NULL);
                 EffacerEcran();
                 if (ChoixBip == 1) {
+                    pthread_join(timerThreadId,NULL);
                     Beep(600, 500);
                     usleep(100000);
                     Beep(500, 500);
@@ -288,6 +291,7 @@ void nv1 (int ChoixBip) {
                 x++;
             }
             if(oiseauxRestant==0){
+                pthread_join(timerThreadId,NULL);
                 win();
                 sleep(100);
                 pthread_join(timerThreadId,NULL);
