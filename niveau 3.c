@@ -96,7 +96,7 @@ void nv3() {
                 tab[a][b] = 6;
             } else if ((a == 6 && b >= 14 && b <= 20)|| (a == 9 && b >= 1 && b <= 6) || (a == 3 && b >= 1 && b <= 9) || (a == 3 && b >= 11 && b <= 20) || (a == 9 && b >= 16 && b <= 20)) { // blocs incassables
                 tab[a][b] = 7;
-            }else if (a == 2 && b == 5) { // bloc vie en plus 
+            }else if (a == 7 && b == 3) { // bloc vie en plus
                 tab[a][b] = 8;
             }else {
                 tab[a][b] = 0;  // l'intérieur
