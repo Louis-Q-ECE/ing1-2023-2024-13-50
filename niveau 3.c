@@ -96,6 +96,8 @@ void nv3() {
                 tab[a][b] = 6;
             } else if ((a == 6 && b >= 14 && b <= 20)|| (a == 9 && b >= 1 && b <= 6) || (a == 3 && b >= 1 && b <= 9) || (a == 3 && b >= 11 && b <= 20) || (a == 9 && b >= 16 && b <= 20)) { // blocs incassables
                 tab[a][b] = 7;
+            }else if (a == 2 && b == 5) { // bloc vie en plus 
+                tab[a][b] = 8;
             }else {
                 tab[a][b] = 0;  // l'intérieur
             }
@@ -148,7 +150,9 @@ void nv3() {
                             printf("♣");
                         }else if (tab[a][b] == 7) {
                             printf("▬");
-                        } else {
+                        }else if (tab[a][b] == 8) {
+                            printf("♥");
+                        }  else {
                             printf(" ");
                         }
                     }
@@ -163,7 +167,13 @@ void nv3() {
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
                 sleep(1);  // faire une pause avant de reprendre
-            } else if (vie == 0) {
+            } else if (tab[y][x] == 8) {
+                vie++;
+                tab[y][x] = 0;
+                if (tab[x][y] == 0) {
+                    printf(" ");
+                }
+            }else if (vie == 0) {
                 pthread_join(timerThreadId,NULL);
                 EffacerEcran();
                 if (ChoixBip == 1) {
