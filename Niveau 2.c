@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <conio.h>
-#include "sousp.h"
+#include "nieveu 2.h"
 
 void EffacerEcran() {
     system("cls");  // Pour Windows
@@ -82,19 +82,19 @@ void nv2() {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
-            } else if (a == 4 && b == 10 || a == 9 && b == 20 || a == 9 && b == 19 || a == 9 && b == 18 || a == 9 && b == 17 || a == 9 && b == 16) { // bloc poussable vers le haut
+            } else if (a == 4 && b == 18) { // bloc poussable vers le haut
                 tab[a][b] = 4;
-            }else if (a == 6 && b == 10) { // bloc poussable vers le bas
+            }else if (a == 8 && b == 8) { // bloc poussable vers le bas
                 tab[a][b] = 10;
-            }else if (a == 9 && b == 3 || a == 5 && b == 9) { // bloc poussable vers la gauche
-                tab[a][b] = 11;
-            } else if (a == 2 && b == 19 || a == 5 && b == 11) { // bloc poussable vers la droite
+            } else if (a == 2 && b == 18) { // bloc poussable vers la droite
                 tab[a][b] = 12;
-            } else if (a==5 && b==1 ||a == 8 && b == 3 ||a == 5 && b == 2 ||a == 10 && b == 3 ||a == 1 && b == 19 || a == 10 && b == 16) { // bloc cassable
+            } else if (a==10 && b==7 ) { // bloc cassable
                 tab[a][b] = 5;
-            } else if (a == 1 && b == 3 || a == 2 && b == 3 || a == 3 && b == 3 ||a == 4 && b == 3 ||a == 5 && b == 3 ||a == 6 && b == 3 ||a == 7 && b == 3 ||a == 8 && b == 4 ||a == 10 && b == 4 ||a == 10 && b == 3 ||a == 10 && b == 3 ||a == 1 && b == 18 ||a == 3 && b == 19 ||a == 3 && b == 20 ||a == 6 && b == 9 ||a == 6 && b == 11 ||a == 4 && b == 9 ||a == 3 && b == 11 ||a == 3 && b == 12 ||a == 3 && b == 13 ||a == 5 && b == 13 ) { // bloc piégé
+            } else if (a == 9 && (b >= 1 && b <= 7) || (b == 1 && (a == 2 || a == 6 )) || a == 4 && b == 2 || (b == 19 && (a >= 5 && a <= 10))|| a == 1 && b == 17) { // bloc piégé
                 tab[a][b] = 6;
-            } else if (a == 7 && b == 3) { // bloc vie en plus
+            } else if ((b == 3 && (a >= 1 && a <= 7)) || (b == 5 && (a >= 2 && a <= 8)) || (b == 7 && (a >= 1 && a <= 7)) || (a == 3 && (b == 20 || b == 19 ))) { // blocs incassables
+                tab[a][b] = 7;
+            }else if (a == 7 && b == 3) { // bloc vie en plus
                 tab[a][b] = 8;
             }else {
                 tab[a][b] = 0;  // l'intérieur
@@ -146,7 +146,9 @@ void nv2() {
                             printf("♠");
                         } else if (tab[a][b] == 6) {
                             printf("♣");
-                        } else if (tab[a][b] == 8) {
+                        } else if (tab[a][b] == 7) {
+                            printf("■");
+                        }else if (tab[a][b] == 8) {
                             printf("♥");
                         }else {
                             printf(" ");
@@ -192,7 +194,7 @@ void nv2() {
 
             // Code pour déplacer le personnage
             char key = getch();
-            if (key == 'z' && y > 1) {
+            if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
                     if (tab[y - 1][x] == 5) {
@@ -213,7 +215,7 @@ void nv2() {
                     }
                 }
                 y--;
-            } else if (key == 's' && y < 10) {
+            } else if (key == 's' && y < 10 && tab[y + 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y + 1][x] != 4 && tab[y + 1][x] != 10 && tab[y + 1][x] != 11 && tab[y + 1][x] != 12) {
                     if (tab[y + 1][x] == 5) {
@@ -235,7 +237,7 @@ void nv2() {
                     }
                 }
                 y++;
-            } else if (key == 'q' && x > 1) {
+            } else if (key == 'q' && x > 1 && tab[y][x - 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x - 1] != 4 && tab[y][x - 1] != 10 && tab[y][x - 1] != 11 && tab[y][x - 1] != 12) {
                     if (tab[y][x - 1] == 5) {
@@ -258,7 +260,7 @@ void nv2() {
                 }
                 x--;
 
-            } else if (key == 'd' && x < 20) {
+            } else if (key == 'd' && x < 20 && tab[y][x + 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x + 1] != 4 && tab[y][x + 1] != 10 && tab[y][x + 1] != 11 && tab[y][x + 1] != 12) {
                     if (tab[y][x + 1] == 5) {
