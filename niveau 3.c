@@ -3,26 +3,16 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <conio.h>
-#include "nieveu 2.h"
+#include "bibl.h"
 
 void EffacerEcran() {
     system("cls");  // Pour Windows
 }
 //Déclaration des variables
 
-int option;
-int mdp0;
-int temps;
-int scoretotal;
-int score1, score2, score3;
-int t1 = 5, t2 = 6, t3 = 7;
-char lettre ;
+
 int oiseauxRestant = 4;
 int vie = 3;  // Nombre initial de vies
-//initialisation des variables mdp1, mdp2, mdp3 qui respectivement ont la valeur
-int mdp1 = 1;
-int mdp2 = 2;
-int mdp3 = 3;
 
 
 
