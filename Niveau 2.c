@@ -94,7 +94,9 @@ void nv2() {
                 tab[a][b] = 5;
             } else if (a == 1 && b == 3 || a == 2 && b == 3 || a == 3 && b == 3 ||a == 4 && b == 3 ||a == 5 && b == 3 ||a == 6 && b == 3 ||a == 7 && b == 3 ||a == 8 && b == 4 ||a == 10 && b == 4 ||a == 10 && b == 3 ||a == 10 && b == 3 ||a == 1 && b == 18 ||a == 3 && b == 19 ||a == 3 && b == 20 ||a == 6 && b == 9 ||a == 6 && b == 11 ||a == 4 && b == 9 ||a == 3 && b == 11 ||a == 3 && b == 12 ||a == 3 && b == 13 ||a == 5 && b == 13 ) { // bloc piégé
                 tab[a][b] = 6;
-            } else {
+            } else if (a == 7 && b == 3) { // bloc vie en plus
+                tab[a][b] = 8;
+            }else {
                 tab[a][b] = 0;  // l'intérieur
             }
         }
@@ -144,7 +146,9 @@ void nv2() {
                             printf("♠");
                         } else if (tab[a][b] == 6) {
                             printf("♣");
-                        } else {
+                        } else if (tab[a][b] == 8) {
+                            printf("♥");
+                        }else {
                             printf(" ");
                         }
                     }
@@ -159,7 +163,13 @@ void nv2() {
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
                 sleep(1);  // faire une pause avant de reprendre
-            } else if (vie == 0) {
+            } else if (tab[y][x] == 8) {
+                vie++;
+                tab[y][x] = 0;
+                if (tab[x][y] == 0) {
+                    printf(" ");
+                }
+            }else if (vie == 0) {
                 pthread_join(timerThreadId,NULL);
                 EffacerEcran();
                 if (ChoixBip == 1) {
