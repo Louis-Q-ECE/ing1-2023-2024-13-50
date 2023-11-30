@@ -1,0 +1,11 @@
+#ifndef FIN_DU_PROJET1_BIBL_H
+#define FIN_DU_PROJET1_BIBL_H
+void EffacerEcran();
+void menu();
+void nv1();
+void nv2();
+void win();
+void GameOver();
+void *timerThread(void *arg);
+void snoopy(int ChoixBip);
+#endif //FIN_DU_PROJET1_BIBL_H
