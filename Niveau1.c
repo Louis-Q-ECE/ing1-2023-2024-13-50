@@ -13,7 +13,7 @@ struct TimerData {
 };
 
 
-void nv2 () {
+void nv1 () {
     int oiseauxRestant=4;
     int ChoixBip;
     SetConsoleOutputCP(65001);
