@@ -7,8 +7,6 @@
 
 
 int option;
-int mdp0;
-int temps;
 int scoretotal;
 int score1, score2, score3;
 int t1 = 5, t2 = 6, t3 = 7;
@@ -19,6 +17,7 @@ char lettre ;
 int mdp1 = 1;
 int mdp2 = 2;
 int mdp3 = 3;
+int mdp0;
 
 
 void regles(){
@@ -39,6 +38,7 @@ void mdp(){
         nv2();
     } else if (mdp0 == mdp3) {
         printf("-vous allez jouer au niveau 3. \n\n");
+        nv3();
     } else {
         printf("-votre mot de passe est incorect. \n\n");
     }
@@ -61,7 +61,7 @@ void quitter(){
     printf("Vous avez decide de quitter le jeu, on vous attend pour une nouvelle aventure.\n");
     exit(0);
 }
-void menu(int ChoixBip) {
+void menu() {
 
     //nous affichons le menu disponible pour le joueur.
     do {
@@ -100,7 +100,7 @@ void menu(int ChoixBip) {
 
             if (option == 1) {
                 printf("Vous allez lancer un nouveau jeu a partir du niveau 1.\n");
-                nv1(ChoixBip);
+                nv1();
             } else if (option == 2) {
                 printf("Vous allez charger votre partie dernierement sauvegardee.\n");
             } else if (option == 3) {
@@ -115,12 +115,13 @@ void menu(int ChoixBip) {
         //si le joueur appuie sur 2 alors, il relancera un nouveau jeu donc une nouvelle partie qu'il devra ensuite sauvegardée
     else if (option == 2) {
         printf("Vous allez lancer un nouveau jeu a partir du niveau 1.\n");
-        nv1(ChoixBip);
+        nv1();
     }
 
         //si le joueur appuie sur 3 alors, il chargera sa partie qui a été sauvegardée
     else if (option == 3) {
         printf("Vous allez charger votre partie dernierement sauvegardee.\n");
+
     }
 
         // si le joueur appuie sur 4 il devra entrer un mot de passe, selon le mot de passe, il sera renvoyer vers le niveau 1,2 ou 3
