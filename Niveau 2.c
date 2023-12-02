@@ -123,7 +123,7 @@ void nv2 () {
                         } else if (tab[a][b] == 6) {
                             printf("♣");
                         } else if (tab[a][b] == 7) {
-                            printf("■");
+                            printf("☼");
                         }else if (tab[a][b] == 8) {
                             printf("♥");
                         } else {
