@@ -114,17 +114,15 @@ void nv3() {
         int elapsedSeconds = difftime(currentTime, startTime);
 
         // Boucle principale
-        while (timerData.temps > 0) {
+        while (timerData.temps > 00 && !stopTimer) {
             system("cls");  // Efface l'écran
             currentTime = time(NULL);
             elapsedSeconds = difftime(currentTime, startTime);
-
             // Affichage du nombre de vies et d'oiseaux
             printf("Vies restantes : %d\n", vie);
             printf("nombres d'oiseaux restants %d\n", oiseauxRestant);
             printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60, (timerData.temps - elapsedSeconds) % 60);
-
-
+            int score = timerData.temps * 100;
 
 
             // Affichage du plateau avec le personnage
@@ -153,7 +151,7 @@ void nv3() {
                         } else if (tab[a][b] == 6) {
                             printf("♣");
                         }else if (tab[a][b] == 7) {
-                            printf("☼");
+                            printf("▬");
                         }else if (tab[a][b] == 8) {
                             printf("♥");
                         }  else {
@@ -191,7 +189,7 @@ void nv3() {
                     usleep(100000);
                     Beep(300, 4000);
 
-
+                    GameOver();
                 }
 
                 break;
@@ -290,11 +288,23 @@ void nv3() {
                 }
                 x++;
             }
-            if(oiseauxRestant==0){
+            if(oiseauxRestant==0) {
                 stopTimer = 1;
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
-                win3();
+                EffacerEcran();
 
+                char O, N;
+                // lorsque le joueur ramasse tous les oiseaux
+                printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
+                printf("Votre score final est: %d\n\n", score);
+                printf("Voulez-vous continuer ? O/N\n");
+                scanf(" %c", &O);  // Ajout d'un espace pour ignorer les espaces, retour à la ligne, etc.
+                if (O == 'O' || O == 'o') {
+                    EffacerEcran();
+                    printf("il n'y a pas encore de niveau 4 !\n");
+                } else {
+                    menu();
+                }
             }
         }
         sleep(1200);
