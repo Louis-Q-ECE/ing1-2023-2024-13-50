@@ -128,7 +128,9 @@ void nv1 () {
 
             // Code pour déplacer le personnage
             char key = getch();
-            if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
+         if(key=='e'){
+            pause();}
+         else if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
                     if (tab[y - 1][x] == 5) {
@@ -247,4 +249,13 @@ void nv1 () {
 
 
 
+}
+void pause(){
+    printf("\n\n Le jeu est en pause, appuyez sur 'r' pour reprendre la partie\n\n");
+    char key;
+    do {
+        key = getch();
+    } while (key != 'r'); // Attendre que la touche 'r' soit pressée pour reprendre le jeu
+    printf("\nLe jeu reprend...\n");
+    // Ajoutez ici le code pour reprendre le jeu après la pause
 }
