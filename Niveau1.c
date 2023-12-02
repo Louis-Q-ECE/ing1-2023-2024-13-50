@@ -4,17 +4,24 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <conio.h>
+#include <stdbool.h>
+#include <time.h>
 
 
 
+
+char timerDisplay[6]; // Format HH:MM
 
 struct TimerData {
     int temps;
+    int *stopTimerPtr;
+    time_t startTime;
 };
 
-
 void nv1 () {
+    int stopTimer = 0;
     int oiseauxRestant=4;
+    time_t startTime = time(NULL);
     int ChoixBip;
     SetConsoleOutputCP(65001);
     int tab[12][22];
@@ -30,7 +37,7 @@ void nv1 () {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
-            } else if (a == 9 && b == 3) { // bloc poussable vers la gauche
+            }  else if (a == 9 && b == 3) { // bloc poussable vers la gauche
                 tab[a][b] = 11;
             }  else if (a==5 && b==1 || a==10 && b==17 || a==10 && b==18 || a==10 && b==19) { // bloc cassable
                 tab[a][b] = 5;
@@ -45,20 +52,28 @@ void nv1 () {
         // Initialisation des données pour le thread du timer
         struct TimerData timerData;
         timerData.temps = 120;
+        timerData.startTime = time(NULL);  // Initialisation ici
 
         // Création du thread du timer
         pthread_t timerThreadId;
         if (pthread_create(&timerThreadId, NULL, timerThread, (void *) &timerData) != 0) {
             fprintf(stderr, "Erreur lors de la création du thread du timer.\n");
         }
+        time_t currentTime = time(NULL);
+        int elapsedSeconds = difftime(currentTime, startTime);
+
 
         // Boucle principale
-        while (timerData.temps > 0) {
+        while (timerData.temps > 0 && !stopTimer) {
             system("cls");  // Efface l'écran
+            currentTime = time(NULL);
+            elapsedSeconds = difftime(currentTime, startTime);
+
 
             // Affichage du nombre de vies et d'oiseaux
             printf("Vies restantes : %d\n", vie);
             printf("nombres d'oiseaux restants %d\n", oiseauxRestant);
+            printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60, (timerData.temps - elapsedSeconds) % 60);
 
 
             // Affichage du plateau avec le personnage
@@ -86,7 +101,11 @@ void nv1 () {
                             printf("♠");
                         } else if (tab[a][b] == 6) {
                             printf("♣");
-                        } else {
+                        }else if (tab[a][b] == 7) {
+                            printf("▬");
+                        }else if (tab[a][b] == 8) {
+                            printf("♥");
+                        }else {
                             printf(" ");
                         }
                     }
@@ -102,7 +121,8 @@ void nv1 () {
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
                 sleep(1);  // faire une pause avant de reprendre
             } else if (vie == 0) {
-                pthread_join(timerThreadId,NULL);
+                stopTimer = 1;
+                pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
                 EffacerEcran();
                 if (ChoixBip == 1) {
                     pthread_join(timerThreadId,NULL);
@@ -114,11 +134,10 @@ void nv1 () {
                     usleep(100000);
                     Beep(300, 4000);
 
-                    GameOver(); //c'est le ascii de ad game over hyper moche
+                    GameOver(); //c'est le ascii game over
 
                 }
 
-                break;
             }
 
 
@@ -215,10 +234,27 @@ void nv1 () {
                 x++;
             }
             if(oiseauxRestant==0){
+                stopTimer = 1;
+                pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
+
+                char O,N;
+                // lorsque le joueur ramasse tous les oiseaux
+                printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
+
                 pthread_join(timerThreadId,NULL);
-                win();
+                EffacerEcran();
+                printf("voulez-vous continuer ? O/N\n");
+                scanf("%c %c",&O,&N);
+                if(O == 'O' || O == 'o'){
+                    EffacerEcran();
+                    printf("vous accedez au niveau 2 !\n");
+                    nv2();
+                } else if (N == 'N' || N == 'n') {
+                    menu();
+                }
 
             }
+
         }
         sleep(1200);
         pthread_join(timerThreadId, NULL);
@@ -228,4 +264,3 @@ void nv1 () {
 
 
 }
-
