@@ -74,7 +74,7 @@ void nv1 () {
             printf("Vies restantes : %d\n", vie);
             printf("nombres d'oiseaux restants %d\n", oiseauxRestant);
             printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60, (timerData.temps - elapsedSeconds) % 60);
-
+            int score = timerData.temps * 100;
 
             // Affichage du plateau avec le personnage
             printf("Plateau du niveau :\n");
@@ -233,25 +233,28 @@ void nv1 () {
                 }
                 x++;
             }
+
+
             if(oiseauxRestant==0){
                 stopTimer = 1;
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
 
                 char O,N;
+                EffacerEcran();
                 // lorsque le joueur ramasse tous les oiseaux
                 printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
-
-                pthread_join(timerThreadId,NULL);
-                EffacerEcran();
-                printf("voulez-vous continuer ? O/N\n");
-                scanf("%c %c",&O,&N);
-                if(O == 'O' || O == 'o'){
+                printf("Votre score final est: %d\n\n", score);
+                printf("Voulez-vous continuer ? O/N\n");
+                scanf(" %c", &O);  // Ajout d'un espace pour ignorer les espaces, retour à la ligne, etc.
+                if (O == 'O' || O == 'o') {
                     EffacerEcran();
-                    printf("vous accedez au niveau 2 !\n");
+                    printf("Vous accédez au niveau 2 !\n");
                     nv2();
-                } else if (N == 'N' || N == 'n') {
+                } else {
                     menu();
                 }
+
+
 
             }
 
