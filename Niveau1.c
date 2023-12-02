@@ -1,23 +1,3 @@
-#include "bibl.h"
-#include <stdio.h>
-#include <windows.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <conio.h>
-#include <stdbool.h>
-#include <time.h>
-
-
-
-
-char timerDisplay[6]; // Format HH:MM
-
-struct TimerData {
-    int temps;
-    int *stopTimerPtr;
-    time_t startTime;
-};
-
 void nv1 () {
     int stopTimer = 0;
     int oiseauxRestant=4;
@@ -37,15 +17,20 @@ void nv1 () {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
-            }  else if (a == 9 && b == 3) { // bloc poussable vers la gauche
-                tab[a][b] = 11;
-            }  else if (a==5 && b==1 || a==10 && b==17 || a==10 && b==18 || a==10 && b==19) { // bloc cassable
+            } else if (a == 3 && b == 6) { // bloc poussable vers le haut
+                tab[a][b] = 4;
+            } else if (a == 4 && b == 19 ) { // bloc poussable vers la droite
+                tab[a][b] = 12;
+            }else if (a==5 && b==1 || a==10 && b==17 || a==10 && b==18 || a==7 && b==7) { // bloc cassable
                 tab[a][b] = 5;
-            } else if (a == 1 && b == 3 || a == 2 && b == 3 || a == 3 && b == 3 ||a == 4 && b == 3 ||a == 5 && b == 3 ||a == 6 && b == 3 ||a == 7 && b == 3 ||a == 8 && b == 3 ||a == 10 && b == 3 ||a == 10 && b == 3 ||a == 10 && b == 3 ) { // bloc piégé
+            } else if ((b == 3) && ((a >= 1 && a <= 8)) || (a == 7) && ((b >= 4 && b <= 6))|| a == 10 && b == 3) { // bloc piégé
                 tab[a][b] = 6;
-            } else {
+            } else if ((b == 8 && a >= 3 && a <= 7) || (a == 3 && b >= 9 && b <= 20) || (b == 19 && a >= 6 && a <= 10) || a==4 && b==4|| a==4 && b==5|| a==4 && b==7 || a==5 && b==18) { // blocs incassables
+                tab[a][b] = 7;
+            }else {
                 tab[a][b] = 0;  // l'intérieur
             }
+
         }
     }
     while (vie > 0) {
@@ -74,7 +59,7 @@ void nv1 () {
             printf("Vies restantes : %d\n", vie);
             printf("nombres d'oiseaux restants %d\n", oiseauxRestant);
             printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60, (timerData.temps - elapsedSeconds) % 60);
-            int score = timerData.temps * 100;
+
 
             // Affichage du plateau avec le personnage
             printf("Plateau du niveau :\n");
@@ -102,7 +87,7 @@ void nv1 () {
                         } else if (tab[a][b] == 6) {
                             printf("♣");
                         }else if (tab[a][b] == 7) {
-                            printf("▬");
+                            printf("☼");
                         }else if (tab[a][b] == 8) {
                             printf("♥");
                         }else {
@@ -134,7 +119,6 @@ void nv1 () {
                     usleep(100000);
                     Beep(300, 4000);
 
-                    GameOver(); //c'est le ascii game over
 
                 }
 
@@ -144,7 +128,7 @@ void nv1 () {
 
             // Code pour déplacer le personnage
             char key = getch();
-            if (key == 'z' && y > 1) {
+            if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
                     if (tab[y - 1][x] == 5) {
@@ -165,7 +149,7 @@ void nv1 () {
                     }
                 }
                 y--;
-            } else if (key == 's' && y < 10) {
+            } else if (key == 's' && y < 10&& tab[y + 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y + 1][x] != 4 && tab[y + 1][x] != 10 && tab[y + 1][x] != 11 && tab[y + 1][x] != 12) {
                     if (tab[y + 1][x] == 5) {
@@ -187,7 +171,7 @@ void nv1 () {
                     }
                 }
                 y++;
-            } else if (key == 'q' && x > 1) {
+            } else if (key == 'q' && x > 1 && tab[y][x - 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x - 1] != 4 && tab[y][x - 1] != 10 && tab[y][x - 1] != 11 && tab[y][x - 1] != 12) {
                     if (tab[y][x - 1] == 5) {
@@ -210,7 +194,7 @@ void nv1 () {
                 }
                 x--;
 
-            } else if (key == 'd' && x < 20) {
+            } else if (key == 'd' && x < 20 && tab[y][x + 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x + 1] != 4 && tab[y][x + 1] != 10 && tab[y][x + 1] != 11 && tab[y][x + 1] != 12) {
                     if (tab[y][x + 1] == 5) {
@@ -233,28 +217,25 @@ void nv1 () {
                 }
                 x++;
             }
-
-
             if(oiseauxRestant==0){
                 stopTimer = 1;
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
 
                 char O,N;
-                EffacerEcran();
                 // lorsque le joueur ramasse tous les oiseaux
                 printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
-                printf("Votre score final est: %d\n\n", score);
-                printf("Voulez-vous continuer ? O/N\n");
-                scanf(" %c", &O);  // Ajout d'un espace pour ignorer les espaces, retour à la ligne, etc.
-                if (O == 'O' || O == 'o') {
+
+                pthread_join(timerThreadId,NULL);
+                EffacerEcran();
+                printf("voulez-vous continuer ? O/N\n");
+                scanf("%c %c",&O,&N);
+                if(O == 'O' || O == 'o'){
                     EffacerEcran();
-                    printf("Vous accédez au niveau 2 !\n");
-                    nv2();
-                } else {
+                    printf("vous accedez au niveau 2 !\n");
+                    nv1();
+                } else if (N == 'N' || N == 'n') {
                     menu();
                 }
-
-
 
             }
 
