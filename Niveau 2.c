@@ -1,55 +1,11 @@
+#include "bibl.h"
 #include <stdio.h>
 #include <windows.h>
 #include <unistd.h>
 #include <pthread.h>
 #include <conio.h>
-#include "nieveu 2.h"
 
-void EffacerEcran() {
-    system("cls");  // Pour Windows
-}
-//Déclaration des variables
-
-int option;
-int mdp0;
-int temps;
-int scoretotal;
-int score1, score2, score3;
-int t1 = 5, t2 = 6, t3 = 7;
-char lettre ;
-int oiseauxRestant = 4;
-int vie = 3;  // Nombre initial de vies
-//initialisation des variables mdp1, mdp2, mdp3 qui respectivement ont la valeur
-int mdp1 = 1;
-int mdp2 = 2;
-int mdp3 = 3;
-
-
-
-
-
-
-
-struct TimerData {
-    int temps;
-};
-
-// Fonction de thread pour gérer le timer
-void *timerThread(void *arg) {
-    struct TimerData *timerData = (struct TimerData *)arg;
-
-    while ((*timerData).temps > 0) {
-        sleep(1);
-        printf("\rTemps restant : %d secondes", (*timerData).temps);
-        fflush(stdout);
-        (*timerData).temps--;
-    }
-    printf("\nLe compte à rebours est terminé !\n");
-
-    pthread_exit(NULL);
-}
-
-void win(){
+void win2(){
     pthread_exit(NULL);
     char O,N;
     // lorsque le joueur ramasse tous les oiseaux
@@ -57,16 +13,27 @@ void win(){
     EffacerEcran();
     printf("voulez-vous continuer ? O/N\n");
     scanf("%c,%c",&O,&N);
-    if(N){
-
+    if(O){
+        EffacerEcran();
+        printf("vous accedez au niveau 3 !");
+        nv3();
     }else{
         menu();
 
     }
 }
 
-void nv2() {
+
+struct TimerData {
+    int temps;
+    int *stopTimerPtr;
+    time_t startTime;
+};
+
+void nv2 () {
+    int stopTimer = 0;
     int oiseauxRestant=4;
+    time_t startTime = time(NULL);
     int ChoixBip;
     SetConsoleOutputCP(65001);
     int tab[12][22];
@@ -82,6 +49,8 @@ void nv2() {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
+            }  else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
+                tab[a][b] = 3;
             } else if (a == 4 && b == 18) { // bloc poussable vers le haut
                 tab[a][b] = 4;
             }else if (a == 8 && b == 8) { // bloc poussable vers le bas
@@ -96,7 +65,7 @@ void nv2() {
                 tab[a][b] = 7;
             }else if (a == 7 && b == 3) { // bloc vie en plus
                 tab[a][b] = 8;
-            }else {
+            } else {
                 tab[a][b] = 0;  // l'intérieur
             }
         }
@@ -105,20 +74,27 @@ void nv2() {
         // Initialisation des données pour le thread du timer
         struct TimerData timerData;
         timerData.temps = 120;
+        timerData.startTime = time(NULL);  // Initialisation ici
 
         // Création du thread du timer
         pthread_t timerThreadId;
         if (pthread_create(&timerThreadId, NULL, timerThread, (void *) &timerData) != 0) {
             fprintf(stderr, "Erreur lors de la création du thread du timer.\n");
         }
+        time_t currentTime = time(NULL);
+        int elapsedSeconds = difftime(currentTime, startTime);
 
         // Boucle principale
         while (timerData.temps > 0) {
             system("cls");  // Efface l'écran
+            currentTime = time(NULL);
+            elapsedSeconds = difftime(currentTime, startTime);
 
             // Affichage du nombre de vies et d'oiseaux
             printf("Vies restantes : %d\n", vie);
             printf("nombres d'oiseaux restants %d\n", oiseauxRestant);
+            printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60, (timerData.temps - elapsedSeconds) % 60);
+
 
 
             // Affichage du plateau avec le personnage
@@ -150,7 +126,7 @@ void nv2() {
                             printf("■");
                         }else if (tab[a][b] == 8) {
                             printf("♥");
-                        }else {
+                        } else {
                             printf(" ");
                         }
                     }
@@ -165,14 +141,9 @@ void nv2() {
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
                 sleep(1);  // faire une pause avant de reprendre
-            } else if (tab[y][x] == 8) {
-                vie++;
-                tab[y][x] = 0;
-                if (tab[x][y] == 0) {
-                    printf(" ");
-                }
-            }else if (vie == 0) {
-                pthread_join(timerThreadId,NULL);
+            } else if (vie == 0) {
+                stopTimer = 1;
+                pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
                 EffacerEcran();
                 if (ChoixBip == 1) {
                     pthread_join(timerThreadId,NULL);
@@ -184,6 +155,7 @@ void nv2() {
                     usleep(100000);
                     Beep(300, 4000);
 
+                    GameOver();
 
                 }
 
@@ -194,7 +166,7 @@ void nv2() {
 
             // Code pour déplacer le personnage
             char key = getch();
-            if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
+            if (key == 'z' && y > 1) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
                     if (tab[y - 1][x] == 5) {
@@ -215,7 +187,7 @@ void nv2() {
                     }
                 }
                 y--;
-            } else if (key == 's' && y < 10 && tab[y + 1][x] != 7) {
+            } else if (key == 's' && y < 10) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y + 1][x] != 4 && tab[y + 1][x] != 10 && tab[y + 1][x] != 11 && tab[y + 1][x] != 12) {
                     if (tab[y + 1][x] == 5) {
@@ -237,7 +209,7 @@ void nv2() {
                     }
                 }
                 y++;
-            } else if (key == 'q' && x > 1 && tab[y][x - 1] != 7) {
+            } else if (key == 'q' && x > 1) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x - 1] != 4 && tab[y][x - 1] != 10 && tab[y][x - 1] != 11 && tab[y][x - 1] != 12) {
                     if (tab[y][x - 1] == 5) {
@@ -260,7 +232,7 @@ void nv2() {
                 }
                 x--;
 
-            } else if (key == 'd' && x < 20 && tab[y][x + 1] != 7) {
+            } else if (key == 'd' && x < 20) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x + 1] != 4 && tab[y][x + 1] != 10 && tab[y][x + 1] != 11 && tab[y][x + 1] != 12) {
                     if (tab[y][x + 1] == 5) {
@@ -284,11 +256,14 @@ void nv2() {
                 x++;
             }
             if(oiseauxRestant==0){
-                pthread_join(timerThreadId,NULL);
-                win();
+                stopTimer = 1;
+                pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
+                win2();
 
             }
         }
+        timerData.temps--;
+
         sleep(1200);
         pthread_join(timerThreadId, NULL);
 
