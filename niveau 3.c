@@ -15,31 +15,34 @@ int oiseauxRestant = 4;
 int vie = 3;  // Nombre initial de vies
 
 
-
-
-
-
-
 struct TimerData {
     int temps;
+    int *stopTimerPtr;
+    time_t startTime;
 };
 
 // Fonction de thread pour gérer le timer
 void *timerThread(void *arg) {
     struct TimerData *timerData = (struct TimerData *)arg;
 
-    while ((*timerData).temps > 0) {
+    while ((*timerData).temps > 0 && !(*timerData).stopTimerPtr) {
         sleep(1);
         printf("\rTemps restant : %d secondes", (*timerData).temps);
         fflush(stdout);
         (*timerData).temps--;
     }
-    printf("\nLe compte à rebours est terminé !\n");
+
+    if (!(*timerData).stopTimerPtr) {
+        printf("\nLe compte à rebours est terminé !\n");
+        // Mettez ici le code que vous souhaitez exécuter à la fin du compte à rebours
+    }
 
     pthread_exit(NULL);
 }
 
-void win(){
+
+
+void win3(){
     pthread_exit(NULL);
     char O,N;
     // lorsque le joueur ramasse tous les oiseaux
@@ -47,8 +50,9 @@ void win(){
     EffacerEcran();
     printf("voulez-vous continuer ? O/N\n");
     scanf("%c,%c",&O,&N);
-    if(N){
-
+    if(O){
+        printf("il n'y a oas encore de niveau 4 !");
+        menu();
     }else{
         menu();
 
@@ -56,8 +60,10 @@ void win(){
 }
 
 void nv3() {
+    int stopTimer = 0;
     int oiseauxRestant=4;
     int ChoixBip;
+    time_t startTime = time(NULL);
     SetConsoleOutputCP(65001);
     int tab[12][22];
     int x = 10, y = 5;
@@ -97,20 +103,28 @@ void nv3() {
         // Initialisation des données pour le thread du timer
         struct TimerData timerData;
         timerData.temps = 120;
+        timerData.startTime = time(NULL);  // Initialisation ici
 
         // Création du thread du timer
         pthread_t timerThreadId;
         if (pthread_create(&timerThreadId, NULL, timerThread, (void *) &timerData) != 0) {
             fprintf(stderr, "Erreur lors de la création du thread du timer.\n");
         }
+        time_t currentTime = time(NULL);
+        int elapsedSeconds = difftime(currentTime, startTime);
 
         // Boucle principale
         while (timerData.temps > 0) {
             system("cls");  // Efface l'écran
+            currentTime = time(NULL);
+            elapsedSeconds = difftime(currentTime, startTime);
 
             // Affichage du nombre de vies et d'oiseaux
             printf("Vies restantes : %d\n", vie);
             printf("nombres d'oiseaux restants %d\n", oiseauxRestant);
+            printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60, (timerData.temps - elapsedSeconds) % 60);
+
+
 
 
             // Affichage du plateau avec le personnage
@@ -149,7 +163,7 @@ void nv3() {
                 }
                 printf("\n");
             }
-
+            timerData.temps--;
 
 
             // le joueur perd une vie si le temps est écoulé ou si le personnage touche un bloc piégé
@@ -164,7 +178,8 @@ void nv3() {
                     printf(" ");
                 }
             }else if (vie == 0) {
-                pthread_join(timerThreadId,NULL);
+                stopTimer = 1;
+                pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
                 EffacerEcran();
                 if (ChoixBip == 1) {
                     pthread_join(timerThreadId,NULL);
@@ -276,8 +291,9 @@ void nv3() {
                 x++;
             }
             if(oiseauxRestant==0){
-                pthread_join(timerThreadId,NULL);
-                win();
+                stopTimer = 1;
+                pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
+                win3();
 
             }
         }
