@@ -1,28 +1,9 @@
-#include "niveau.3.h"
+#include "bibl.h"
 #include <stdio.h>
 #include <windows.h>
 #include <unistd.h>
 #include <pthread.h>
 #include <conio.h>
-
-void win2(){
-    pthread_exit(NULL);
-    char O,N;
-    // lorsque le joueur ramasse tous les oiseaux
-    printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
-    EffacerEcran();
-    printf("voulez-vous continuer ? O/N\n");
-    scanf("%c,%c",&O,&N);
-    if(O){
-        EffacerEcran();
-        printf("vous accedez au niveau 3 !");
-        //nv3();
-    }else{
-       // menu();
-
-    }
-}
-
 
 struct TimerData {
     int temps;
@@ -30,20 +11,10 @@ struct TimerData {
     time_t startTime;
 };
 
-void pause(){
-    printf("\n\n Le jeu est en pause, appuyez sur 'r' pour reprendre la partie\n\n");
-    char key;
-    do {
-        key = getch();
-    } while (key != 'r'); // Attendre que la touche 'r' soit pressée pour reprendre le jeu
-    printf("\nLe jeu reprend...\n");
-    // Ajoutez ici le code pour reprendre le jeu après la pause
-}
-
-
 void nv2 (int ChoixBip) {
     int stopTimer = 0;
-    int oiseauxRestant = 4;
+    int oiseauxRestant=4;
+    struct Balle balle = {14, 8, 1, 1};
     time_t startTime = time(NULL);
     SetConsoleOutputCP(65001);
     int tab[12][22];
@@ -59,23 +30,21 @@ void nv2 (int ChoixBip) {
                 tab[a][b] = 2; // les bordures des murs
             } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
-            } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
+            }  else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
             } else if (a == 4 && b == 18) { // bloc poussable vers le haut
                 tab[a][b] = 4;
-            } else if (a == 8 && b == 8) { // bloc poussable vers le bas
+            }else if (a == 8 && b == 8) { // bloc poussable vers le bas
                 tab[a][b] = 10;
             } else if (a == 2 && b == 18) { // bloc poussable vers la droite
                 tab[a][b] = 12;
-            } else if (a == 10 && b == 7) { // bloc cassable
+            } else if (a==10 && b==7 ) { // bloc cassable
                 tab[a][b] = 5;
-            } else if (a == 9 && (b >= 1 && b <= 7) || (b == 1 && (a == 2 || a == 6)) || a == 4 && b == 2 ||
-                       (b == 19 && (a >= 5 && a <= 10)) || a == 1 && b == 17) { // bloc piégé
+            } else if (a == 9 && (b >= 1 && b <= 7) || (b == 1 && (a == 2 || a == 6 )) || a == 4 && b == 2 || (b == 19 && (a >= 5 && a <= 10))|| a == 1 && b == 17) { // bloc piégé
                 tab[a][b] = 6;
-            } else if ((b == 3 && (a >= 1 && a <= 7)) || (b == 5 && (a >= 2 && a <= 8)) ||
-                       (b == 7 && (a >= 1 && a <= 7)) || (a == 3 && (b == 20 || b == 19))) { // blocs incassables
+            } else if ((b == 3 && (a >= 1 && a <= 7)) || (b == 5 && (a >= 2 && a <= 8)) || (b == 7 && (a >= 1 && a <= 7)) || (a == 3 && (b == 20 || b == 19 ))) { // blocs incassables
                 tab[a][b] = 7;
-            } else if (a == 7 && b == 3) { // bloc vie en plus
+            }else if (a == 7 && b == 3) { // bloc vie en plus
                 tab[a][b] = 8;
             } else {
                 tab[a][b] = 0;  // l'intérieur
@@ -98,17 +67,18 @@ void nv2 (int ChoixBip) {
 
 
         // Boucle principale
-        while (timerData.temps > 00 && !stopTimer) {
+        while (timerData.temps > 0 && !stopTimer) {
             system("cls");  // Efface l'écran
             currentTime = time(NULL);
             elapsedSeconds = difftime(currentTime, startTime);
+            updateBalle(&balle);
 
             // Affichage du nombre de vies et d'oiseaux
             printf("Vies restantes : %d\n", vie);
             printf("nombres d'oiseaux restants %d\n", oiseauxRestant);
             printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60,
                    (timerData.temps - elapsedSeconds) % 60);
-            int score = timerData.temps * 100;
+            int score = (120 - elapsedSeconds) * 100;
 
 
             // Affichage du plateau avec le personnage
@@ -118,32 +88,37 @@ void nv2 (int ChoixBip) {
                     if (a == y && b == x) {
                         printf("♂");
                     } else {
-                        if (tab[a][b] == 1) {
-                            printf("-");
-                        } else if (tab[a][b] == 2) {
-                            printf("|");
-                        } else if (tab[a][b] == 3) {
-                            printf("♫");
-                        } else if (tab[a][b] == 4) {
-                            printf("↑");
-                        } else if (tab[a][b] == 10) {
-                            printf("↓");
-                        } else if (tab[a][b] == 11) {
-                            printf("←");
-                        } else if (tab[a][b] == 12) {
-                            printf("→");
-                        } else if (tab[a][b] == 5) {
-                            printf("♠");
-                        } else if (tab[a][b] == 6) {
-                            printf("♣");
-                        } else if (tab[a][b] == 7) {
-                            printf("■");
-                        } else if (tab[a][b] == 8) {
-                            printf("♥");
+                        if (a == balle.y && b == balle.x) {
+                            printf("☺"); // Vous pouvez utiliser un autre caractère pour représenter la balle
                         } else {
-                            printf(" ");
+                            if (tab[a][b] == 1) {
+                                printf("-");
+                            } else if (tab[a][b] == 2) {
+                                printf("|");
+                            } else if (tab[a][b] == 3) {
+                                printf("♫");
+                            } else if (tab[a][b] == 4) {
+                                printf("↑");
+                            } else if (tab[a][b] == 10) {
+                                printf("↓");
+                            } else if (tab[a][b] == 11) {
+                                printf("←");
+                            } else if (tab[a][b] == 12) {
+                                printf("→");
+                            } else if (tab[a][b] == 5) {
+                                printf("♠");
+                            } else if (tab[a][b] == 6) {
+                                printf("♣");
+                            } else if (tab[a][b] == 7) {
+                                printf("☼");
+                            } else if (tab[a][b] == 8) {
+                                printf("♥");
+                            } else {
+                                printf(" ");
+                            }
                         }
                     }
+
                 }
                 printf("\n");
             }
@@ -151,7 +126,7 @@ void nv2 (int ChoixBip) {
 
 
             // le joueur perd une vie si le temps est écoulé ou si le personnage touche un bloc piégé
-            if (timerData.temps == 0 || tab[y][x] == 6) {
+            if (timerData.temps <= 0 || tab[y][x] == 6 || tab[x] == balle.x && tab[y] == balle.y) {
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
                 sleep(1);  // faire une pause avant de reprendre
@@ -160,7 +135,6 @@ void nv2 (int ChoixBip) {
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
                 EffacerEcran();
                 GameOver();
-
                 if (ChoixBip == 1) {
                     Beep(600, 500);
                     usleep(100000);
@@ -170,7 +144,6 @@ void nv2 (int ChoixBip) {
                     usleep(100000);
                     Beep(300, 4000);
 
-
                 }
 
                 break;
@@ -179,10 +152,15 @@ void nv2 (int ChoixBip) {
 
 
             // Code pour déplacer le personnage
-            char key = getch();
-            if(key=='e'){
-                pause();}
-            else if (key == 'z' && y > 1) {
+            char key;
+            if (kbhit()) {
+                key = getch();
+            } else {
+                sleep(1);
+            }
+            if (key == 'e') {
+                pause();
+            } else if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
                     if (tab[y - 1][x] == 5) {
@@ -203,7 +181,7 @@ void nv2 (int ChoixBip) {
                     }
                 }
                 y--;
-            } else if (key == 's' && y < 10) {
+            } else if (key == 's' && y < 10 && tab[y + 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y + 1][x] != 4 && tab[y + 1][x] != 10 && tab[y + 1][x] != 11 && tab[y + 1][x] != 12) {
                     if (tab[y + 1][x] == 5) {
@@ -225,7 +203,7 @@ void nv2 (int ChoixBip) {
                     }
                 }
                 y++;
-            } else if (key == 'q' && x > 1) {
+            } else if (key == 'q' && x > 1 && tab[y][x - 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x - 1] != 4 && tab[y][x - 1] != 10 && tab[y][x - 1] != 11 && tab[y][x - 1] != 12) {
                     if (tab[y][x - 1] == 5) {
@@ -233,7 +211,7 @@ void nv2 (int ChoixBip) {
                         printf(" ");
                     } else if (tab[y][x - 1] == 3) {
                         tab[y][x - 1] = 0;
-                        printf(" "); // Fait disparaître l'oiseau
+                        printf(" ");// Fait disparaître l'oiseau
                         oiseauxRestant--;
 
                     }
@@ -248,7 +226,7 @@ void nv2 (int ChoixBip) {
                 }
                 x--;
 
-            } else if (key == 'd' && x < 20) {
+            } else if (key == 'd' && x < 20 && tab[y][x + 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x + 1] != 4 && tab[y][x + 1] != 10 && tab[y][x + 1] != 11 && tab[y][x + 1] != 12) {
                     if (tab[y][x + 1] == 5) {
@@ -274,11 +252,11 @@ void nv2 (int ChoixBip) {
             if (oiseauxRestant == 0) {
                 stopTimer = 1;
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
-                EffacerEcran();
 
                 char O, N;
                 // lorsque le joueur ramasse tous les oiseaux
                 printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
+                printf("score est %d", score);
 
                 pthread_join(timerThreadId, NULL);
                 EffacerEcran();
@@ -287,21 +265,20 @@ void nv2 (int ChoixBip) {
                     scanf(" %c", &O);
                     if (toupper(O) == 'O') {
                         EffacerEcran();
-                        printf("vous accedez au niveau 3 !\n");
-                        nv3(ChoixBip);
+                        printf("vous accedez au niveau 2 !\n");
+                        nv2(ChoixBip);
                     } else if (toupper(O) == 'N') {
                         menu(ChoixBip);
                     }
                 } while (toupper(O) != 'N' && toupper(O) != 'O');
             }
-            timerData.temps--;
-
-            sleep(1200);
-            pthread_join(timerThreadId, NULL);
-
         }
 
+        sleep(1200);
+        pthread_join(timerThreadId, NULL);
 
     }
+
+
 
 }
