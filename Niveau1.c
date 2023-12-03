@@ -334,6 +334,6 @@ void nv1 (int ChoixBip) {
             }
 
 
-
+ if (timerData.temps <= 0 || tab[y][x] == 6 || tab[x] == balle.x && tab[y] == balle.y)
 
 
