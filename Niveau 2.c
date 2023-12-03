@@ -180,7 +180,9 @@ void nv2 (int ChoixBip) {
 
             // Code pour déplacer le personnage
             char key = getch();
-            if (key == 'z' && y > 1) {
+            if(key=='e'){
+                pause();}
+            else if (key == 'z' && y > 1) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
                     if (tab[y - 1][x] == 5) {
