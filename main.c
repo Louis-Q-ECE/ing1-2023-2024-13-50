@@ -1,5 +1,5 @@
 
-#include "bibl.h"
+#include "niveau.3.h"
 #include <stdio.h>
 int main() {
     int ChoixBip = 2;
@@ -10,5 +10,6 @@ int main() {
         scanf("%d", &ChoixBip);
         EffacerEcran();
     } while (ChoixBip != 0 && ChoixBip != 1);
+    snoopy(ChoixBip);
     menu(ChoixBip);
 }
