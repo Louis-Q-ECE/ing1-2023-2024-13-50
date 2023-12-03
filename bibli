@@ -1,10 +1,11 @@
 #ifndef FIN_DU_PROJET1_BIBL_H
 #define FIN_DU_PROJET1_BIBL_H
 void EffacerEcran();
-void menu();
-void nv1();
-void nv2();
-void nv3();
+void menu(int ChoixBip);
+void mdp(int ChoixBip);
+void nv1(int ChoixBip);
+void nv2(int ChoixBip);
+void nv3(int ChoixBip);
 void win();
 void GameOver();
 void *timerThread(void *arg);
