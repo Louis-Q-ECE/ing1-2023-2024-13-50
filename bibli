@@ -7,6 +7,7 @@ void nv1(int ChoixBip);
 void nv2(int ChoixBip);
 void nv3(int ChoixBip);
 void win();
+void pause();
 void GameOver();
 void *timerThread(void *arg);
 void snoopy(int ChoixBip);
