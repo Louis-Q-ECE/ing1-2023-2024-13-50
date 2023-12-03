@@ -270,8 +270,6 @@ void nv1 () {
         sleep(1200);
         pthread_join(timerThreadId, NULL);
 
+        }
     }
-
-
-
 }
