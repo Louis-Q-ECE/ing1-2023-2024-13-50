@@ -6,43 +6,7 @@
 #include <conio.h>
 #include <time.h>
 
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-#ifndef FIN_DU_PROJET1_BIBL_H
-#define FIN_DU_PROJET1_BIBL_H
 
-struct Balle {
-    int x;
-    int y;
-    int vx; // Vitesse horizontale
-    int vy; // Vitesse verticale
-};
-
-
-void EffacerEcran();
-void menu();
-void nv1();
-void nv2();
-void nv3();
-void GameOver();
-void pause();
-void *timerThread(void *arg);
-void updateBalle(struct Balle *balle);
-void snoopy(int ChoixBip);
-
-#endif // FIN_DU_PROJET1_BIBL_H
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
-
-void pause(){
-
-    printf("\n\n Le jeu est en pause, appuyez sur 'r' pour reprendre la partie\n\n");
-    char key;
-    do {
-        key = getch();
-    } while (key != 'r'); // Attendre que la touche 'r' soit pressée pour reprendre le jeu
-    printf("\nLe jeu reprend...\n");
-    // Ajoutez ici le code pour reprendre le jeu après la pause
-}
 
 
 char timerDisplay[6]; // Format HH:MM
@@ -53,11 +17,10 @@ struct TimerData {
     time_t startTime;
 };
 
-void nv1 () {
+void nv1 (int ChoixBip) {
     int stopTimer = 0;
     int oiseauxRestant=4;
     time_t startTime = time(NULL);
-    int ChoixBip;
     SetConsoleOutputCP(65001);
     int tab[12][22];
     int x = 10, y = 5;
@@ -167,8 +130,8 @@ void nv1 () {
                 stopTimer = 1;
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
                 EffacerEcran();
+                GameOver();
                 if (ChoixBip == 1) {
-                    pthread_join(timerThreadId,NULL);
                     Beep(600, 500);
                     usleep(100000);
                     Beep(500, 500);
@@ -176,8 +139,6 @@ void nv1 () {
                     Beep(400, 500);
                     usleep(100000);
                     Beep(300, 4000);
-
-                    GameOver(); //c'est le ascii game over
 
                 }
 
@@ -194,7 +155,7 @@ void nv1 () {
             }
             if(key=='e'){
                 pause();
-            }else if (key == 'z' && y > 1) {
+            }else if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
                     if (tab[y - 1][x] == 5) {
@@ -215,7 +176,7 @@ void nv1 () {
                     }
                 }
                 y--;
-            } else if (key == 's' && y < 10) {
+            } else if (key == 's' && y < 10 && tab[y + 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y + 1][x] != 4 && tab[y + 1][x] != 10 && tab[y + 1][x] != 11 && tab[y + 1][x] != 12) {
                     if (tab[y + 1][x] == 5) {
@@ -237,7 +198,7 @@ void nv1 () {
                     }
                 }
                 y++;
-            } else if (key == 'q' && x > 1) {
+            } else if (key == 'q' && x > 1 && tab[y][x - 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x - 1] != 4 && tab[y][x - 1] != 10 && tab[y][x - 1] != 11 && tab[y][x - 1] != 12) {
                     if (tab[y][x - 1] == 5) {
@@ -260,7 +221,7 @@ void nv1 () {
                 }
                 x--;
 
-            } else if (key == 'd' && x < 20) {
+            } else if (key == 'd' && x < 20 && tab[y][x + 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y][x + 1] != 4 && tab[y][x + 1] != 10 && tab[y][x + 1] != 11 && tab[y][x + 1] != 12) {
                     if (tab[y][x + 1] == 5) {
@@ -286,24 +247,29 @@ void nv1 () {
 
 
 
-            if(oiseauxRestant<=0){
+            if(oiseauxRestant==0){
                 stopTimer = 1;
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
 
                 char O,N;
-                EffacerEcran();
                 // lorsque le joueur ramasse tous les oiseaux
                 printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
-                printf("Votre score final est: %d\n\n", score);
-                printf("Voulez-vous continuer ? O/N\n");
-                scanf(" %c", &O);  // Ajout d'un espace pour ignorer les espaces, retour à la ligne, etc.
-                if (O == 'O' || O == 'o') {
-                    EffacerEcran();
-                    printf("Vous accédez au niveau 2 !\n");
-                    nv2();
-                } else {
-                    menu();
+                printf("score est %d", score);
+
+                pthread_join(timerThreadId,NULL);
+                EffacerEcran();
+                do {
+                    printf("voulez-vous continuer ? O/N\n");
+                    scanf(" %c",&O);
+                    if(toupper(O) == 'O'){
+                        EffacerEcran();
+                        printf("vous accedez au niveau 2 !\n");
+                        nv2(ChoixBip);
+                    } else if (toupper(O) == 'N') {
+                        menu(ChoixBip);
+                    }
                 }
+                while (toupper(O) != 'N' && toupper(O) != 'O');
             }
 
         }
