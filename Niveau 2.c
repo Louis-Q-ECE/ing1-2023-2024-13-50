@@ -30,6 +30,17 @@ struct TimerData {
     time_t startTime;
 };
 
+void pause(){
+    printf("\n\n Le jeu est en pause, appuyez sur 'r' pour reprendre la partie\n\n");
+    char key;
+    do {
+        key = getch();
+    } while (key != 'r'); // Attendre que la touche 'r' soit pressée pour reprendre le jeu
+    printf("\nLe jeu reprend...\n");
+    // Ajoutez ici le code pour reprendre le jeu après la pause
+}
+
+
 void nv2 (int ChoixBip) {
     int stopTimer = 0;
     int oiseauxRestant = 4;
