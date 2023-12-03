@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <windows.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <conio.h>
+#include "bibl.h"
+
+void EffacerEcran() {
+    system("cls");  // Pour Windows
+}
+
+struct TimerData {
+    int temps;
+    int *stopTimerPtr;
+    time_t startTime;
+};
+
+// Fonction de thread pour gérer le timer
+void *timerThread(void *arg) {
+    struct TimerData *timerData = (struct TimerData *)arg;
+
+    while ((*timerData).temps > 0 && !(*timerData).stopTimerPtr) {
+        sleep(1);
+        printf("\rTemps restant : %d secondes", (*timerData).temps);
+        fflush(stdout);
+        (*timerData).temps--;
+    }
+
+    if (!(*timerData).stopTimerPtr) {
+        printf("\nLe compte à rebours est terminé !\n");
+        // Mettez ici le code que vous souhaitez exécuter à la fin du compte à rebours
+    }
+
+    pthread_exit(NULL);
+}
+
+
+
+void pause(){
+
+    printf("\n\n Le jeu est en pause, appuyez sur 'r' pour reprendre la partie\n\n");
+    char key;
+    do {
+        key = getch();
+    } while (key != 'r'); // Attendre que la touche 'r' soit pressée pour reprendre le jeu
+    printf("\nLe jeu reprend...\n");
+    // Ajoutez ici le code pour reprendre le jeu après la pause
+}
+
+
+
+
+
+void updateBalle(struct Balle *balle) {
+    int ancienX = balle->x;
+    int ancienY = balle->y;
+
+    balle->x += balle->vx;
+    balle->y += balle->vy;
+
+    // Gestion des collisions avec les bords du plateau
+    if (balle->x <= 0 || balle->x >= 21) {
+        balle->vx = -balle->vx; // Inversion de la vitesse horizontale
+        balle->x = ancienX;
+        balle->y = ancienY;// Restauration de la position précédente pour éviter de rester bloqué dans le mur
+        balle->x += balle->vx;
+        balle->y += balle->vy;
+    }
+    // Gestion des collisions avec les bords du plateau
+    if (balle->y <= 0 || balle->y >= 11) {
+        balle->vy = -balle->vy; // Inversion de la vitesse horizontale
+        balle->x = ancienX;
+        balle->y = ancienY; // Restauration de la position précédente pour éviter de rester bloqué dans le mur
+        balle->x += balle->vx;
+        balle->y += balle->vy;
+    }
+
+}
