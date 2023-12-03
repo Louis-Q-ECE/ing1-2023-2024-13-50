@@ -5,7 +5,6 @@
 #include <pthread.h>
 #include <conio.h>
 
-
 void pause(){
     printf("\n\n Le jeu est en pause, appuyez sur 'r' pour reprendre la partie\n\n");
     char key;
@@ -21,11 +20,10 @@ struct TimerData {
     time_t startTime;
 };
 
-void nv1 () {
+void nv1 (int ChoixBip) {
     int stopTimer = 0;
     int oiseauxRestant=4;
     time_t startTime = time(NULL);
-    int ChoixBip;
     SetConsoleOutputCP(65001);
     int tab[12][22];
     int x = 10, y = 5;
@@ -127,13 +125,20 @@ void nv1 () {
             if (timerData.temps == 0 || tab[y][x] == 6) {
                 vie--;
                 printf("\nVous avez perdu une vie ! Vies restantes : %d\n", vie);
+                if (ChoixBip == 1) {
+
+                    Beep(400, 500);
+                    usleep(100000);
+                }
                 sleep(1);  // faire une pause avant de reprendre
             } else if (vie == 0) {
                 stopTimer = 1;
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
                 EffacerEcran();
+                GameOver();
+
                 if (ChoixBip == 1) {
-                    pthread_join(timerThreadId,NULL);
+
                     Beep(600, 500);
                     usleep(100000);
                     Beep(500, 500);
@@ -141,7 +146,6 @@ void nv1 () {
                     Beep(400, 500);
                     usleep(100000);
                     Beep(300, 4000);
-
 
                 }
 
@@ -151,9 +155,9 @@ void nv1 () {
 
             // Code pour déplacer le personnage
             char key = getch();
-         if(key=='e'){
-            pause();}
-         else if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
+            if(key=='e'){
+                pause();}
+            else if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
                 if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12) {
                     if (tab[y - 1][x] == 5) {
@@ -252,15 +256,15 @@ void nv1 () {
 
                 pthread_join(timerThreadId,NULL);
                 EffacerEcran();
-                 do {
+                do {
                     printf("voulez-vous continuer ? O/N\n");
                     scanf(" %c",&O);
                     if(toupper(O) == 'O'){
                         EffacerEcran();
                         printf("vous accedez au niveau 2 !\n");
-                        nv2();
+                        nv2(ChoixBip);
                     } else if (toupper(O) == 'N') {
-                        menu();
+                        menu(ChoixBip);
                     }
                 }
                 while (toupper(O) != 'N' && toupper(O) != 'O');
@@ -270,6 +274,9 @@ void nv1 () {
         sleep(1200);
         pthread_join(timerThreadId, NULL);
 
-        }
     }
+
+
+
 }
+
