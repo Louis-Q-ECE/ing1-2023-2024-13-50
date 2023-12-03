@@ -1,4 +1,4 @@
-#include "bibl.h"
+#include "niveau.3.h"
 #include <stdio.h>
 #include <windows.h>
 #include <unistd.h>
@@ -27,18 +27,18 @@ void regles(){
            "un obstacle \n\n");
 }
 
-void mdp(){
+void mdp(int ChoixBip){
     printf("Entrer un mot de passe\n");
     scanf("%d", &mdp0);
     if (mdp0 == mdp1) {
         printf("-vous allez jouer au niveau 1. \n\n");
-        nv1();
+        nv1(ChoixBip);
     } else if (mdp0 == mdp2) {
         printf("-vous allez jouer au niveau 2 \n\n");
-        nv2();
+        nv2(ChoixBip);
     } else if (mdp0 == mdp3) {
         printf("-vous allez jouer au niveau 3. \n\n");
-        nv3();
+        nv3(ChoixBip);
     } else {
         printf("-votre mot de passe est incorect. \n\n");
     }
@@ -61,7 +61,7 @@ void quitter(){
     printf("Vous avez decide de quitter le jeu, on vous attend pour une nouvelle aventure.\n");
     exit(0);
 }
-void menu() {
+void menu(int ChoixBip) {
 
     //nous affichons le menu disponible pour le joueur.
     do {
@@ -100,11 +100,11 @@ void menu() {
 
             if (option == 1) {
                 printf("Vous allez lancer un nouveau jeu a partir du niveau 1.\n");
-                nv1();
+                nv1(ChoixBip);
             } else if (option == 2) {
                 printf("Vous allez charger votre partie dernierement sauvegardee.\n");
             } else if (option == 3) {
-                mdp();
+                mdp(ChoixBip);
             } else if (option == 4) {
                 score();
             }
@@ -115,7 +115,7 @@ void menu() {
         //si le joueur appuie sur 2 alors, il relancera un nouveau jeu donc une nouvelle partie qu'il devra ensuite sauvegardée
     else if (option == 2) {
         printf("Vous allez lancer un nouveau jeu a partir du niveau 1.\n");
-        nv1();
+        nv1(ChoixBip);
     }
 
         //si le joueur appuie sur 3 alors, il chargera sa partie qui a été sauvegardée
@@ -126,7 +126,7 @@ void menu() {
 
         // si le joueur appuie sur 4 il devra entrer un mot de passe, selon le mot de passe, il sera renvoyer vers le niveau 1,2 ou 3
     else if (option == 4) {
-        mdp();
+        mdp(ChoixBip);
 
     } else if (option == 5) {
         score();
