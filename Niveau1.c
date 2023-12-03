@@ -252,16 +252,18 @@ void nv1 () {
 
                 pthread_join(timerThreadId,NULL);
                 EffacerEcran();
-                printf("voulez-vous continuer ? O/N\n");
-                scanf("%c %c",&O,&N);
-                if(O == 'O' || O == 'o'){
-                    EffacerEcran();
-                    printf("vous accedez au niveau 2 !\n");
-                    nv1();
-                } else if (N == 'N' || N == 'n') {
-                    menu();
+                 do {
+                    printf("voulez-vous continuer ? O/N\n");
+                    scanf(" %c",&O);
+                    if(toupper(O) == 'O'){
+                        EffacerEcran();
+                        printf("vous accedez au niveau 2 !\n");
+                        nv2();
+                    } else if (toupper(O) == 'N') {
+                        menu();
+                    }
                 }
-
+                while (toupper(O) != 'N' && toupper(O) != 'O');
             }
 
         }
