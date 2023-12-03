@@ -4,6 +4,7 @@ void EffacerEcran();
 void menu();
 void nv1();
 void nv2();
+void nv3();
 void win();
 void GameOver();
 void *timerThread(void *arg);
