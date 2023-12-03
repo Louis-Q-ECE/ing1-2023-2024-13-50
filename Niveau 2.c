@@ -264,25 +264,27 @@ void nv2 () {
                 char O, N;
                 // lorsque le joueur ramasse tous les oiseaux
                 printf("Vous avez gagné ! Vous allez accéder au niveau suivant.\n");
-                printf("Votre score final est: %d\n\n", score);
-                printf("Voulez-vous continuer ? O/N\n");
-                scanf(" %c", &O);  // Ajout d'un espace pour ignorer les espaces, retour à la ligne, etc.
-                if (O == 'O' || O == 'o') {
-                    EffacerEcran();
-                    printf("Vous accédez au niveau 3 !\n");
-                    nv3();
-                } else {
-                    menu();
-                }
+
+                pthread_join(timerThreadId, NULL);
+                EffacerEcran();
+                do {
+                    printf("voulez-vous continuer ? O/N\n");
+                    scanf(" %c", &O);
+                    if (toupper(O) == 'O') {
+                        EffacerEcran();
+                        printf("vous accedez au niveau 3 !\n");
+                        nv3();
+                    } else if (toupper(O) == 'N') {
+                        menu();
+                    }
+                } while (toupper(O) != 'N' && toupper(O) != 'O');
             }
-        }
         timerData.temps--;
 
         sleep(1200);
         pthread_join(timerThreadId, NULL);
 
+        }
+
     }
-
-
-
 }
