@@ -299,19 +299,22 @@ void nv3() {
                 printf("Votre score final est: %d\n\n", score);
                 printf("Voulez-vous continuer ? O/N\n");
                 scanf(" %c", &O);  // Ajout d'un espace pour ignorer les espaces, retour à la ligne, etc.
-                if (O == 'O' || O == 'o') {
-                    EffacerEcran();
-                    printf("il n'y a pas encore de niveau 4 !\n");
-                } else {
-                    menu();
-                }
+                do {
+                    printf("voulez-vous continuer ? O/N\n");
+                    scanf(" %c", &O);
+                    if (toupper(O) == 'O') {
+                        EffacerEcran();
+                        printf("Il n'y a pas de niv4 !\n");
+                    } else if (toupper(O) == 'N') {
+                        menu();
+                    }
+                } while (toupper(O) != 'N' && toupper(O) != 'O');
             }
+            sleep(1200);
+            pthread_join(timerThreadId, NULL);
+
         }
-        sleep(1200);
-        pthread_join(timerThreadId, NULL);
+
 
     }
-
-
-
 }
