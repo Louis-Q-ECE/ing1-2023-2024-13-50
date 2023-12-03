@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <conio.h>
-#include "bibl.h"
+#include "niveau.3.h"
 
 void EffacerEcran() {
     system("cls");  // Pour Windows
@@ -52,17 +52,16 @@ void win3(){
     scanf("%c,%c",&O,&N);
     if(O){
         printf("il n'y a oas encore de niveau 4 !");
-        menu();
+        //menu();
     }else{
-        menu();
+       // menu();
 
     }
 }
 
-void nv3() {
+void nv3(int ChoixBip) {
     int stopTimer = 0;
-    int oiseauxRestant=4;
-    int ChoixBip;
+    int oiseauxRestant = 4;
     time_t startTime = time(NULL);
     SetConsoleOutputCP(65001);
     int tab[12][22];
@@ -76,25 +75,29 @@ void nv3() {
                 tab[a][b] = 1;  // les bordures du toit et du plancher
             } else if (b == 0 || b == 21) {
                 tab[a][b] = 2; // les bordures des murs
-            } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20|| a == 10 && b == 20 ) {
+            } else if (a == 1 && b == 1 || a == 10 && b == 1 || a == 1 && b == 20 || a == 10 && b == 20) {
                 tab[a][b] = 3;
-            } else if ( a == 2 && b == 10 ) { // bloc poussable vers le haut
+            } else if (a == 2 && b == 10) { // bloc poussable vers le haut
                 tab[a][b] = 4;
-            }else if (a == 6 && b == 7) { // bloc poussable vers le bas
+            } else if (a == 6 && b == 7) { // bloc poussable vers le bas
                 tab[a][b] = 10;
-            }else if (a == 5 && b == 7 ) { // bloc poussable vers la gauche
+            } else if (a == 5 && b == 7) { // bloc poussable vers la gauche
                 tab[a][b] = 11;
-            } else if (a == 5 && b == 13 ) { // bloc poussable vers la droite
+            } else if (a == 5 && b == 13) { // bloc poussable vers la droite
                 tab[a][b] = 12;
-            } else if ( a == 10 && b == 16 ||a == 4 && b == 7) { // bloc cassable
+            } else if (a == 10 && b == 16 || a == 4 && b == 7) { // bloc cassable
                 tab[a][b] = 5;
-            } else if ((a == 6 && (b >= 8 && b <= 12)) || (a == 4 && (b >= 8 && b <= 9)) || (a == 4 && (b >= 11 && b <= 12))|| (a >= 7 && a <= 10 && b == 8) || (a == 1 && (b == 4 || b == 8 || b == 12 || b == 16)) || (a == 2 && (b == 2 || b == 6 || b == 14 || b == 18))) { //bloc piégé
+            } else if ((a == 6 && (b >= 8 && b <= 12)) || (a == 4 && (b >= 8 && b <= 9)) ||
+                       (a == 4 && (b >= 11 && b <= 12)) || (a >= 7 && a <= 10 && b == 8) ||
+                       (a == 1 && (b == 4 || b == 8 || b == 12 || b == 16)) ||
+                       (a == 2 && (b == 2 || b == 6 || b == 14 || b == 18))) { //bloc piégé
                 tab[a][b] = 6;
-            } else if ((a == 6 && b >= 14 && b <= 20)|| (a == 9 && b >= 1 && b <= 6) || (a == 3 && b >= 1 && b <= 9) || (a == 3 && b >= 11 && b <= 20) || (a == 9 && b >= 16 && b <= 20)) { // blocs incassables
+            } else if ((a == 6 && b >= 14 && b <= 20) || (a == 9 && b >= 1 && b <= 6) || (a == 3 && b >= 1 && b <= 9) ||
+                       (a == 3 && b >= 11 && b <= 20) || (a == 9 && b >= 16 && b <= 20)) { // blocs incassables
                 tab[a][b] = 7;
-            }else if (a == 7 && b == 3) { // bloc vie en plus
+            } else if (a == 7 && b == 3) { // bloc vie en plus
                 tab[a][b] = 8;
-            }else {
+            } else {
                 tab[a][b] = 0;  // l'intérieur
             }
         }
@@ -121,7 +124,8 @@ void nv3() {
             // Affichage du nombre de vies et d'oiseaux
             printf("Vies restantes : %d\n", vie);
             printf("nombres d'oiseaux restants %d\n", oiseauxRestant);
-            printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60, (timerData.temps - elapsedSeconds) % 60);
+            printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60,
+                   (timerData.temps - elapsedSeconds) % 60);
             int score = timerData.temps * 100;
 
 
@@ -150,11 +154,11 @@ void nv3() {
                             printf("♠");
                         } else if (tab[a][b] == 6) {
                             printf("♣");
-                        }else if (tab[a][b] == 7) {
+                        } else if (tab[a][b] == 7) {
                             printf("▬");
-                        }else if (tab[a][b] == 8) {
+                        } else if (tab[a][b] == 8) {
                             printf("♥");
-                        }  else {
+                        } else {
                             printf(" ");
                         }
                     }
@@ -175,12 +179,13 @@ void nv3() {
                 if (tab[x][y] == 0) {
                     printf(" ");
                 }
-            }else if (vie == 0) {
+            } else if (vie == 0) {
                 stopTimer = 1;
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
                 EffacerEcran();
+                GameOver();
+
                 if (ChoixBip == 1) {
-                    pthread_join(timerThreadId,NULL);
                     Beep(600, 500);
                     usleep(100000);
                     Beep(500, 500);
@@ -189,7 +194,6 @@ void nv3() {
                     usleep(100000);
                     Beep(300, 4000);
 
-                    GameOver();
                 }
 
                 break;
@@ -201,11 +205,12 @@ void nv3() {
             char key = getch();
             if (key == 'z' && y > 1 && tab[y - 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
-                if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12 && tab[y - 1][x] != 7) {
+                if (tab[y - 1][x] != 4 && tab[y - 1][x] != 10 && tab[y - 1][x] != 11 && tab[y - 1][x] != 12 &&
+                    tab[y - 1][x] != 7) {
                     if (tab[y - 1][x] == 5) {
                         tab[y - 1][x] = 0;// Fait disparaître le bloc cassable
                         printf(" ");
-                    }else if (tab[y-1][x] == 3){
+                    } else if (tab[y - 1][x] == 3) {
                         tab[y - 1][x] = 0;
                         printf(" ");// Fait disparaître l'oiseau
                         oiseauxRestant--;
@@ -222,11 +227,12 @@ void nv3() {
                 y--;
             } else if (key == 's' && y < 10 && tab[y + 1][x] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
-                if (tab[y + 1][x] != 4 && tab[y + 1][x] != 10 && tab[y + 1][x] != 11 && tab[y + 1][x] != 12 && tab[y + 1][x] != 7) {
+                if (tab[y + 1][x] != 4 && tab[y + 1][x] != 10 && tab[y + 1][x] != 11 && tab[y + 1][x] != 12 &&
+                    tab[y + 1][x] != 7) {
                     if (tab[y + 1][x] == 5) {
                         tab[y + 1][x] = 0;// Fait disparaître le bloc cassable
                         printf(" ");
-                    }else if (tab[y+1][x] == 3){
+                    } else if (tab[y + 1][x] == 3) {
                         tab[y + 1][x] = 0;
                         printf(" ");// Fait disparaître l'oiseau
                         oiseauxRestant--;
@@ -244,11 +250,12 @@ void nv3() {
                 y++;
             } else if (key == 'q' && x > 1 && tab[y][x - 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
-                if (tab[y][x - 1] != 4 && tab[y][x - 1] != 10 && tab[y][x - 1] != 11 && tab[y][x - 1] != 12 && tab[y][x - 1] != 7) {
+                if (tab[y][x - 1] != 4 && tab[y][x - 1] != 10 && tab[y][x - 1] != 11 && tab[y][x - 1] != 12 &&
+                    tab[y][x - 1] != 7) {
                     if (tab[y][x - 1] == 5) {
                         tab[y][x - 1] = 0; // Fait disparaître le bloc cassable
                         printf(" ");
-                    }else if (tab[y][x - 1] == 3){
+                    } else if (tab[y][x - 1] == 3) {
                         tab[y][x - 1] = 0;
                         printf(" ");// Fait disparaître l'oiseau
                         oiseauxRestant--;
@@ -267,11 +274,12 @@ void nv3() {
 
             } else if (key == 'd' && x < 20 && tab[y][x + 1] != 7) {
                 // Vérifiez si la case de destination n'est pas un bloc poussable
-                if (tab[y][x + 1] != 4 && tab[y][x + 1] != 10 && tab[y][x + 1] != 11 && tab[y][x + 1] != 12 && tab[y][x + 1] != 7) {
+                if (tab[y][x + 1] != 4 && tab[y][x + 1] != 10 && tab[y][x + 1] != 11 && tab[y][x + 1] != 12 &&
+                    tab[y][x + 1] != 7) {
                     if (tab[y][x + 1] == 5) {
                         tab[y][x + 1] = 0; // Fait disparaître le bloc cassable
                         printf(" ");
-                    }else if (tab[y][x + 1] == 3){
+                    } else if (tab[y][x + 1] == 3) {
                         tab[y][x + 1] = 0;
                         printf(" ");// Fait disparaître l'oiseau
                         oiseauxRestant--;
@@ -288,7 +296,7 @@ void nv3() {
                 }
                 x++;
             }
-            if(oiseauxRestant==0) {
+            if (oiseauxRestant == 0) {
                 stopTimer = 1;
                 pthread_join(timerThreadId, NULL);  // Attendre la fin du thread du timer
                 EffacerEcran();
@@ -306,7 +314,7 @@ void nv3() {
                         EffacerEcran();
                         printf("Il n'y a pas de niv4 !\n");
                     } else if (toupper(O) == 'N') {
-                        menu();
+                        menu(ChoixBip);
                     }
                 } while (toupper(O) != 'N' && toupper(O) != 'O');
             }
