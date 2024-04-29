@@ -78,7 +78,7 @@ void nv2 (int ChoixBip) {
             printf("nombres d'oiseaux restants %d\n", oiseauxRestant);
             printf("Temps restant : %02d:%02d\n", (timerData.temps - elapsedSeconds) / 60,
                    (timerData.temps - elapsedSeconds) % 60);
-            int score = (120 - elapsedSeconds) * 100;
+            int score = (120 - elapsedSeconds) * 100
 
 
             // Affichage du plateau avec le personnage
